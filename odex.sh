@@ -302,24 +302,24 @@ fi
 
 # 生成模块
 echo "- 正在制作模块，请坐和放宽"
-rm -rf /data/adb/modules/mix2sodex
-mkdir -p /data/adb/modules/mix2sodex/system
-touch /data/adb/modules/mix2sodex/module.prop
-echo "id=miuiodex" >> /data/adb/modules/mix2sodex/module.prop
-echo "name=MIUI odex优化" >> /data/adb/modules/mix2sodex/module.prop
-echo "version=1.0" >> /data/adb/modules/mix2sodex/module.prop
-echo "versionCode=1" >> /data/adb/modules/mix2sodex/module.prop
-echo "author=柚稚的孩纸&雄式老方" >> /data/adb/modules/mix2sodex/module.prop
-echo "minMagisk=19000" >> /data/adb/modules/mix2sodex/module.prop
+rm -rf /data/adb/modules/miuiodex
+mkdir -p /data/adb/modules/miuiodex/system
+touch /data/adb/modules/miuiodex/module.prop
+echo "id=miuiodex" >> /data/adb/modules/miuiodex/module.prop
+echo "name=MIUI odex优化" >> /data/adb/modules/miuiodex/module.prop
+echo "version=1.0" >> /data/adb/modules/miuiodex/module.prop
+echo "versionCode=1" >> /data/adb/modules/miuiodex/module.prop
+echo "author=柚稚的孩纸&雄式老方" >> /data/adb/modules/miuiodex/module.prop
+echo "minMagisk=19000" >> /data/adb/modules/miuiodex/module.prop
 model="`grep -n "ro.product.system.model" /system/build.prop | cut -d= -f2`"
 ver="`grep -n "ro.miui.ui.version.name" /system/build.prop | cut -dV -f2`"
 modelversion="`grep -n "ro.system.build.version.incremental" /system/build.prop | cut -d= -f2`"
 time=$(date "+%Y年%m月%d日 %H:%M:%S")
-echo -n "description=对系统应用进行分离odex，分离的机型为$model，版本为MIUI $ver $modelversion，编译时间为$time" >> /data/adb/modules/mix2sodex/module.prop
-mv $workfile/* /data/adb/modules/mix2sodex/system
+echo -n "description=对系统应用进行分离odex，分离的机型为$model，版本为MIUI $ver $modelversion，编译时间为$time" >> /data/adb/modules/miuiodex/module.prop
+mv $workfile/* /data/adb/modules/miuiodex/system
 if [ $? = 0 ] ; then
-     mv /data/adb/modules/mix2sodex/system/log $workfile
-     rm -rf /data/adb/modules/mix2sodex/system/packagelist
+     mv /data/adb/modules/miuiodex/system/log $workfile
+     rm -rf /data/adb/modules/miuiodex/system/packagelist
      echo "- 模块制作完成，请重启生效"
 else
      echo "! 模块制作失败，自个儿看着办"
