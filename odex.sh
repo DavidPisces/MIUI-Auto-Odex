@@ -352,7 +352,7 @@ model="`grep -n "ro.product.system.model" /system/build.prop | cut -d= -f2`"
 ver="`grep -n "ro.miui.ui.version.name" /system/build.prop | cut -dV -f2`"
 modelversion="`grep -n "ro.system.build.version.incremental" /system/build.prop | cut -d= -f2`"
 time=$(date "+%Y年%m月%d日 %H:%M:%S")
-echo -n "description=对系统应用进行分离odex，MIUI版本 $ver $modelversion，编译时间为$time{Build with $model}" >> /data/adb/modules/miuiodex/module.prop
+echo -n "description=对系统应用进行分离odex，MIUI版本 $ver $modelversion，编译时间为$time [Build with $model]" >> /data/adb/modules/miuiodex/module.prop
 mv $workfile/* /data/adb/modules/miuiodex/system
 if [ $? = 0 ] ; then
      mv /data/adb/modules/miuiodex/system/log $workfile
