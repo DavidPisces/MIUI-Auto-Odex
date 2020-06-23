@@ -32,10 +32,15 @@ echo "*************************************************"
 echo -e "\n- 您希望以什么模式编译Odex\n"
 echo "[1] Simple (耗时较少,占用空间少，仅编译重要应用)"
 echo "[2] Complete (耗时较长，占用空间大，完整编译)"
+echo "[3] Skip ODEX 跳过ODEX编译"
+echo "[q] Quit 退出"
 echo -e "\n请输入选项"
 read choose_odex
 clear
-
+if [ $choose_odex == q ] ; then
+  echo "- 已退出"
+  exit
+fi
 # choose dex2oat mod
 echo "*************************************************"
 echo " "
@@ -47,6 +52,7 @@ echo "*************************************************"
 echo -e "\n- 您希望以什么模式进行Dex2oat\n"
 echo "[1] Speed (快速编译,耗时较短)"
 echo "[2] Everything (完整编译,耗时较长)"
+echo "[q] Quit 退出"
 echo -e "\n请输入选项"
 read choose_dex2oat
 clear
@@ -76,11 +82,16 @@ clear
       echo "- 文件复制完成，开始执行"
 	  odex_module=true
     fi
-	if [ $choose_odex == q ] ; then
+	if [ $choose_odex == 3 ] ; then
 	  echo "- 跳过odex编译，不会生成模块"
 	  odex_module=false
 	fi
   fi
+
+if [ $choose_dex2oat == q ] ;then 
+  echo "- 已退出"
+  exit
+fi
 
 # system/app
 shopt -s extglob
