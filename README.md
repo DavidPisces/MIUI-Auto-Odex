@@ -42,7 +42,7 @@ https://github.com/DavidPisces/MIUI-Auto-Odex/releases
 
   >下载脚本后点击脚本执行，勾选Root
   >
-  >![](http://image.coolapk.com/feed/2020/0623/15/665894_f922a721_8531_8664@1080x2160.jpeg.m.jpg)
+  >![](http://image.coolapk.com/feed/2020/0623/15/665894_f922a721_8810_5677@1080x2160.jpeg.m.jpg)
 
 * 其他终端
 
@@ -51,4 +51,8 @@ https://github.com/DavidPisces/MIUI-Auto-Odex/releases
   > cd 脚本存放目录
   >
   > sh odex.sh
-
+  >![](http://image.coolapk.com/feed/2020/0623/15/665894_16498409_8810_5679@1080x2160.jpeg.m.jpg)
+  
+* 截图预览
+  >![](http://image.coolapk.com/feed/2020/0623/15/665894_d7126094_8810_5681@1080x2160.jpeg.m.jpg)
+  >![](http://image.coolapk.com/feed/2020/0623/15/665894_c03753fd_8810_5683@1080x2160.jpeg.m.jpg)
