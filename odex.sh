@@ -64,6 +64,7 @@ clear
       cp -r /system/priv-app/SecurityCenter $workfile/priv-app
       cp -r /system/product/priv-app/Settings $workfile/product/priv-app
       echo "- 文件复制完成，开始执行"
+	  odex_module=true
   else
     if [ $choose_odex == 2 ] ;then
       echo "- 正在以Complete(完整)模式编译"
@@ -73,10 +74,12 @@ clear
       cp -r /system/product/app/* $workfile/product/app
       cp -r /system/product/priv-app/* $workfile/product/priv-app
       echo "- 文件复制完成，开始执行"
-    else
-	  echo "- 未输入正确参数，Faild!"
-	  exit 0
+	  odex_module=true
     fi
+	if [ $choose_odex == q ] ; then
+	  echo "- 跳过odex编译，不会生成模块"
+	  odex_module=false
+	fi
   fi
 
 # system/app
@@ -309,7 +312,8 @@ if [ $choose_dex2oat == 1 ] ; then
   echo "应用优化完成(Speed 模式) -> $app"
   cmd package compile -m speed $app
   let appnumber=appnumber+1
-  echo "已完成 $appnumber / $apptotalnumber"
+  percentage=$((appnumber*100/apptotalnumber))
+  echo "已完成 $percentage%   $appnumber / $apptotalnumber"
   done
 else
       if [ $choose_odex == 2 ] ;then
@@ -327,7 +331,8 @@ else
           echo "应用优化完成(Everthing 模式) -> $app"
           cmd package compile -m everything $app
           let appnumber=appnumber+1
-          echo "已完成 $appnumber / $apptotalnumber"
+          percentage=$((appnumber*100/apptotalnumber))
+          echo "已完成 $percentage%   $appnumber / $apptotalnumber"
         done
 	      echo "- done!"
       else
@@ -336,29 +341,32 @@ else
       fi
 fi
 
-
+if [ odex_module == true ] ; then
 # 生成模块
-echo "- 正在制作模块，请坐和放宽"
-rm -rf /data/adb/modules/miuiodex
-mkdir -p /data/adb/modules/miuiodex/system
-touch /data/adb/modules/miuiodex/module.prop
-echo "id=miuiodex" >> /data/adb/modules/miuiodex/module.prop
-echo "name=MIUI ODEX" >> /data/adb/modules/miuiodex/module.prop
-echo "version=3.1" >> /data/adb/modules/miuiodex/module.prop
-echo "versionCode=1" >> /data/adb/modules/miuiodex/module.prop
-echo "author=柚稚的孩纸&雄式老方" >> /data/adb/modules/miuiodex/module.prop
-echo "minMagisk=19000" >> /data/adb/modules/miuiodex/module.prop
-model="`grep -n "ro.product.system.model" /system/build.prop | cut -d= -f2`"
-ver="`grep -n "ro.miui.ui.version.name" /system/build.prop | cut -dV -f2`"
-modelversion="`grep -n "ro.system.build.version.incremental" /system/build.prop | cut -d= -f2`"
-time=$(date "+%Y年%m月%d日 %H:%M:%S")
-echo -n "description=对系统应用进行分离odex，MIUI版本 $ver $modelversion，编译时间为$time [Build with $model]" >> /data/adb/modules/miuiodex/module.prop
-mv $workfile/* /data/adb/modules/miuiodex/system
-if [ $? = 0 ] ; then
-     mv /data/adb/modules/miuiodex/system/log $workfile
-     rm -rf /data/adb/modules/miuiodex/system/packagelist
-     echo "- 模块制作完成，请重启生效"
+  echo "- 正在制作模块，请坐和放宽"
+  rm -rf /data/adb/modules/miuiodex
+  mkdir -p /data/adb/modules/miuiodex/system
+  touch /data/adb/modules/miuiodex/module.prop
+  echo "id=miuiodex" >> /data/adb/modules/miuiodex/module.prop
+  echo "name=MIUI ODEX" >> /data/adb/modules/miuiodex/module.prop
+  echo "version=3.2" >> /data/adb/modules/miuiodex/module.prop
+  echo "versionCode=1" >> /data/adb/modules/miuiodex/module.prop
+  echo "author=柚稚的孩纸&雄式老方" >> /data/adb/modules/miuiodex/module.prop
+  echo "minMagisk=19000" >> /data/adb/modules/miuiodex/module.prop
+  model="`grep -n "ro.product.system.model" /system/build.prop | cut -d= -f2`"
+  ver="`grep -n "ro.miui.ui.version.name" /system/build.prop | cut -dV -f2`"
+  modelversion="`grep -n "ro.system.build.version.incremental" /system/build.prop | cut -d= -f2`"
+  time=$(date "+%Y年%m月%d日 %H:%M:%S")
+  echo -n "description=对系统应用进行分离odex，MIUI版本 $ver $modelversion，编译时间$time [Build with $model]" >> /data/adb/modules/miuiodex/module.prop
+  mv $workfile/* /data/adb/modules/miuiodex/system
+  if [ $? = 0 ] ; then
+       mv /data/adb/modules/miuiodex/system/log $workfile
+       rm -rf /data/adb/modules/miuiodex/system/packagelist
+       echo "- 模块制作完成，请重启生效"
+  else
+       echo "! 模块制作失败"
+  fi
 else
-     echo "! 模块制作失败"
+  echo "- 未选择编译odex选项，不会生成模块"
 fi
 echo "- 完成！"
