@@ -51,6 +51,7 @@ https://github.com/DavidPisces/MIUI-Auto-Odex/releases
   > cd 脚本存放目录
   >
   > sh odex.sh
+  >
   >![](http://image.coolapk.com/feed/2020/0623/15/665894_16498409_8810_5679@1080x2160.jpeg.m.jpg)
   
 * 截图预览
