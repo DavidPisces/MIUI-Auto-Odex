@@ -42,7 +42,7 @@ https://github.com/DavidPisces/MIUI-Auto-Odex/releases
 
   >下载脚本后点击脚本执行，勾选Root
   >
-  >![](C:\Users\洛水天依\Desktop\Screenshot_2020-06-23-15-28-22-996_bin.mt.plus.jpg)
+  >![](http://image.coolapk.com/feed/2020/0623/15/665894_f922a721_8531_8664@1080x2160.jpeg.m.jpg)
 
 * 其他终端
 
