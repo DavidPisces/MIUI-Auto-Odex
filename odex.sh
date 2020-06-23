@@ -352,7 +352,7 @@ else
       fi
 fi
 
-if [ odex_module == true ] ; then
+if [ $odex_module == true ] ; then
 # 生成模块
   echo "- 正在制作模块，请坐和放宽"
   rm -rf /data/adb/modules/miuiodex
