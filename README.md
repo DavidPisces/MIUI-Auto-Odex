@@ -48,7 +48,3 @@
   > sh odex.sh
   >
   >![](http://image.coolapk.com/feed/2020/0623/15/665894_16498409_8810_5679@1080x2160.jpeg.m.jpg)
-  
-* 截图预览
-  >![](http://image.coolapk.com/feed/2020/0623/15/665894_d7126094_8810_5681@1080x2160.jpeg.m.jpg)
-  >![](http://image.coolapk.com/feed/2020/0623/15/665894_c03753fd_8810_5683@1080x2160.jpeg.m.jpg)
