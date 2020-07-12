@@ -1,6 +1,6 @@
 #!/bin/bash
 # MIUI ODEX项目贡献者：柚稚的孩纸(zjw2017) 雄氏老方(DavidPisces)
-nowversion=4.2
+nowversion=4.3
 workfile=/storage/emulated/0/MIUI_odex
 success_count=0
 faild_count=0
@@ -51,7 +51,8 @@ if [ $choose_odex == 4 ] ; then
   lastname="odex V$(cat version).sh"
   latesturl="https://raw.githubusercontent.com/DavidPisces/MIUI-Auto-Odex/master/odex.sh"
   clear
-  if [ $nowversion < $latestversion ] ;then
+  is_update=$(echo "$latestversion > $nowversion" | bc)
+  if [ $is_update != 0 ] ; then
       echo "! 发现新版本$latestversion，是否更新"
 	  echo "  [y] 更新"
 	  echo "  [n] 取消"
