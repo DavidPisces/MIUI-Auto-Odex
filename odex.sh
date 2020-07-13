@@ -70,12 +70,14 @@ if [ $choose_odex == 4 ] ; then
          fi
 	  else
 	     echo "# 已取消"
+		 rm -rf version
 		 exit
 	  fi
    else
       echo "- 未发现新版本"
 	  echo "  当前版本：$nowversion"
 	  echo "  Github版本：$latestversion"
+	  rm -rf version
 	  exit
    fi
 fi
