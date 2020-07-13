@@ -46,7 +46,7 @@ clear
 if [ $choose_odex == 4 ] ; then
 # Github Raw
   echo "- 正在查询Github最新版本，请坐和放宽"
-  curl -o -s version https://raw.githubusercontent.com/DavidPisces/MIUI-Auto-Odex/master/version
+  curl -s -o version https://raw.githubusercontent.com/DavidPisces/MIUI-Auto-Odex/master/version
   latestversion=$(cat version)
   latestshname="odex.sh"
   lastname="odex V$(cat version).sh"
@@ -60,7 +60,7 @@ if [ $choose_odex == 4 ] ; then
 	  read choose_update
 	  if [ $choose_update == "y" ] ;then
 	     echo "- 正在下载更新，请坐和放宽"
-	     curl -o -s odex.sh $latesturl
+	     curl -s -o odex.sh $latesturl
 		 clear
          if [ $? -eq 0 ]; then
             echo "- 新版本已下载完毕，请退出重新运行odex.sh"
