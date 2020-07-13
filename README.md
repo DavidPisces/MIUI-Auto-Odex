@@ -12,11 +12,11 @@
 
 #### 能做什么
 
-> 此脚本能实现系统软件的Odex与odex2oat编译，适用于被MIUI阉割Odex优化的系统
+> 此脚本能实现系统软件的Odex与odex2oat编译，适用于被MIUI官方删除Odex的机型
 >
 > 支持Complete(完整)与Simple(简单)编译模式，Speed与Everything两种dex2oat编译模式
 >
-> 支持生成odex文件后自动生成Magisk模块自动安装
+> 支持生成odex文件后自动生成Magisk模块并自动安装
 >
 > 支持自选编译模式
 > 
@@ -26,10 +26,16 @@
 
 #### 运行环境
 
-* 推荐使用Android10 MIUI11-12 且具备Root权限
-* Magisk 20.4+
+###### 必要
+
+* 必须具有Root权限
 * 需要使用MT管理器或者其他终端执行脚本，比如Ansole终端、Termux等
-* 最好安装Busybox
+
+###### 建议 
+
+* 推荐使用基于Android10的MIUI11-12
+* 推荐使用Magisk 20.4及以上Magisk版本
+* 建议安装完整Busybox
 
 #### 如何使用
 
