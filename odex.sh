@@ -44,7 +44,7 @@ clear
 
 # Update Mode
 if [ $choose_odex == 4 ] ; then
-
+# Github Raw
   curl -o version https://raw.githubusercontent.com/DavidPisces/MIUI-Auto-Odex/master/version
   latestversion=$(cat version)
   latestshname="odex.sh"
