@@ -1,6 +1,6 @@
 #!/bin/bash
 # MIUI ODEX项目贡献者：柚稚的孩纸(zjw2017) 雄氏老方(DavidPisces)
-nowversion=4.4
+nowversion=4.4.1
 workfile=/storage/emulated/0/MIUI_odex
 success_count=0
 faild_count=0
@@ -49,7 +49,7 @@ if [ $choose_odex == 4 ] ; then
   curl -s -o version https://raw.githubusercontent.com/DavidPisces/MIUI-Auto-Odex/master/version
   latestversion=$(cat version)
   latestshname="odex.sh"
-  lastname="odex V$(cat version).sh"
+  lastname="odex$(cat version).sh"
   latesturl="https://raw.githubusercontent.com/DavidPisces/MIUI-Auto-Odex/master/odex.sh"
   clear
   is_update=$(echo "$latestversion > $nowversion" | bc)
@@ -58,14 +58,15 @@ if [ $choose_odex == 4 ] ; then
 	  echo "  [y] 更新"
 	  echo "  [n] 取消"
 	  read choose_update
+	  clear
 	  if [ $choose_update == "y" ] ;then
 	     echo "- 正在下载更新，请坐和放宽"
-	     curl -s -o odex.sh $latesturl
+	     curl -s -o odex$latestversion.sh $latesturl
 		 clear
          if [ $? -eq 0 ]; then
             echo "- 新版本已下载完毕，请退出重新运行odex.sh"
             rm -rf version
-	        mv "$latestshname" "odex.sh"
+	        mv "odex$latestversion.sh" "$latestshname"
             exit
          fi
 	  else
