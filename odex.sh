@@ -10,7 +10,7 @@ shopt -s extglob
 echo "- 报错为正常现象"
 # rm
 rm -rf $workfile
-rm-rf /data/adb/modules/muiodex
+rm-rf /data/adb/modules/miuiodex
 # mkdir
 echo "- 正在创建目录"
 mkdir -p /storage/emulated/0/MIUI_odex/log
