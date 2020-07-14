@@ -1,6 +1,6 @@
 #!/bin/bash
 # MIUI ODEX项目贡献者：柚稚的孩纸(zjw2017) 雄氏老方(DavidPisces)
-nowversion=4.422
+nowversion=4.43
 workfile=/storage/emulated/0/MIUI_odex
 success_count=0
 faild_count=0
@@ -445,7 +445,7 @@ if [ $odex_module == true ] ; then
    touch /data/adb/modules/miuiodex/module.prop
    echo "id=miuiodex" >> /data/adb/modules/miuiodex/module.prop
    echo "name=MIUI ODEX" >> /data/adb/modules/miuiodex/module.prop
-   echo "version=3.2" >> /data/adb/modules/miuiodex/module.prop
+   echo "version=$nowversion" >> /data/adb/modules/miuiodex/module.prop
    echo "versionCode=1" >> /data/adb/modules/miuiodex/module.prop
    echo "author=柚稚的孩纸&雄式老方" >> /data/adb/modules/miuiodex/module.prop
    echo "minMagisk=19000" >> /data/adb/modules/miuiodex/module.prop
@@ -453,7 +453,7 @@ if [ $odex_module == true ] ; then
    ver="`grep -n "ro.miui.ui.version.name" /system/build.prop | cut -dV -f2`"
    modelversion="`grep -n "ro.system.build.version.incremental" /system/build.prop | cut -d= -f2`"
    time=$(date "+%Y年%m月%d日 %H:%M:%S")
-   echo -n "description=对系统应用进行分离odex，MIUI版本 $ver $modelversion，编译时间$time [Build with $model]" >> /data/adb/modules/miuiodex/module.prop
+   echo -n "description=分离系统软件ODEX，MIUI版本 $ver $modelversion，编译时间$time [Build with $model]" >> /data/adb/modules/miuiodex/module.prop
    mv $workfile/* /data/adb/modules/miuiodex/system
    if [ $? = 0 ] ; then
       mv /data/adb/modules/miuiodex/system/log $workfile
