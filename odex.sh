@@ -37,7 +37,7 @@ echo "[1] Simple (耗时较少,占用空间少，仅编译重要应用)"
 echo "[2] Complete (耗时较长，占用空间大，完整编译)"
 echo "[3] Skip ODEX 不进行ODEX编译"
 echo "[4] Update From Github 从Github更新脚本"
-echo "[5] update From Gitee 从Gitee更新(国内源)"
+echo "[5] Update From Gitee 从Gitee更新(国内源)"
 echo "[6] Quit 退出"
 echo -e "\n请输入选项"
 read choose_odex
