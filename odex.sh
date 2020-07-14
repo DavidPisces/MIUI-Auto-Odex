@@ -69,6 +69,8 @@ if [ $choose_odex == 4 ] ; then
             rm -rf version
 	        mv "odex$latestversion.sh" "$latestshname"
             exit
+		 else
+		    echo "! 下载失败"
          fi
 	  else
 	     echo "# 已取消"
@@ -79,6 +81,27 @@ if [ $choose_odex == 4 ] ; then
       echo "- 未发现新版本"
 	  echo "  当前版本：$nowversion"
 	  echo "  Github版本：$latestversion"
+	  echo "  是否重新下载？"
+	  echo "[y] 下载"
+	  echo "[n] 取消"
+	  if [ $choose_update == "y" ] ;then
+	     echo "- 正在下载更新，请坐和放宽"
+	     curl -s -o odex$latestversion.sh $latesturl
+		 clear
+         if [ $? -eq 0 ]; then
+            echo "- 下载完毕，请退出重新运行odex.sh"
+            rm -rf version
+	        mv "odex$latestversion.sh" "$latestshname"
+            exit
+		 else
+		    echo "! 下载失败"
+         fi
+	  else
+		 echo "# 已取消"
+		 rm -rf version
+		 exit
+	  fi	
+	  
 	  rm -rf version
 	  exit
    fi
@@ -110,6 +133,8 @@ if [ $choose_odex == 5 ] ; then
             rm -rf version
 	        mv "odex$latestversion.sh" "$latestshname"
             exit
+		 else
+		    echo "! 下载失败"
          fi
 	  else
 	     echo "# 已取消"
@@ -120,6 +145,27 @@ if [ $choose_odex == 5 ] ; then
       echo "- 未发现新版本"
 	  echo "  当前版本：$nowversion"
 	  echo "  Gitee版本：$latestversion"
+	  echo "  是否下载？"
+	  echo "[y] 下载"
+	  echo "[n] 取消"
+	  if [ $choose_update == "y" ] ;then
+	     echo "- 正在下载更新，请坐和放宽"
+	     curl -s -o odex$latestversion.sh $latesturl
+		 clear
+         if [ $? -eq 0 ]; then
+            echo "- 下载完毕，请退出重新运行odex.sh"
+            rm -rf version
+	        mv "odex$latestversion.sh" "$latestshname"
+            exit
+		 else
+		    echo "! 下载失败"
+         fi
+	  else
+		 echo "# 已取消"
+		 rm -rf version
+		 exit
+	  fi	
+	  
 	  rm -rf version
 	  exit
    fi
