@@ -29,20 +29,21 @@ echo "*************************************************"
 echo " "
 echo " "
 echo "                   MIUI ODEX"
-echo " "
+echo "                      $nowversion"
 echo " "
 echo "*************************************************"
 echo -e "\n- 您希望以什么模式编译Odex\n"
 echo "[1] Simple (耗时较少,占用空间少，仅编译重要应用)"
 echo "[2] Complete (耗时较长，占用空间大，完整编译)"
 echo "[3] Skip ODEX 不进行ODEX编译"
-echo "[4] Update From Github 更新脚本(同步Github)"
-echo "[5] Quit 退出"
+echo "[4] Update From Github 从Github更新脚本"
+echo "[5] update From Gitee 从Gitee更新(国内源)"
+echo "[6] Quit 退出"
 echo -e "\n请输入选项"
 read choose_odex
 clear
 
-# Update Mode
+# Update Mode 1
 if [ $choose_odex == 4 ] ; then
 # Github Raw
   echo "- 正在查询Github最新版本，请坐和放宽"
@@ -83,7 +84,48 @@ if [ $choose_odex == 4 ] ; then
    fi
 fi
 
+# Update Mode 2
 if [ $choose_odex == 5 ] ; then
+# Gitee Raw
+  echo "- 正在查询Gitee最新版本，请坐和放宽"
+  curl -s -o version https://gitee.com/David-GithubClone/MIUI-Auto-Odex/raw/master/version
+  latestversion=$(cat version)
+  latestshname="odex.sh"
+  lastname="odex$(cat version).sh"
+  latesturl="https://gitee.com/David-GithubClone/MIUI-Auto-Odex/raw/master/odex.sh"
+  clear
+  is_update=$(echo "$latestversion > $nowversion" | bc)
+  if [ $is_update != 0 ] ; then
+      echo "! 发现新版本$latestversion，是否更新"
+	  echo "  [y] 更新"
+	  echo "  [n] 取消"
+	  read choose_update
+	  clear
+	  if [ $choose_update == "y" ] ;then
+	     echo "- 正在下载更新，请坐和放宽"
+	     curl -s -o odex$latestversion.sh $latesturl
+		 clear
+         if [ $? -eq 0 ]; then
+            echo "- 新版本已下载完毕，请退出重新运行odex.sh"
+            rm -rf version
+	        mv "odex$latestversion.sh" "$latestshname"
+            exit
+         fi
+	  else
+	     echo "# 已取消"
+		 rm -rf version
+		 exit
+	  fi
+   else
+      echo "- 未发现新版本"
+	  echo "  当前版本：$nowversion"
+	  echo "  Gitee版本：$latestversion"
+	  rm -rf version
+	  exit
+   fi
+fi
+
+if [ $choose_odex == 6 ] ; then
    echo "- 已退出"
    exit
 else
@@ -92,7 +134,7 @@ else
    echo " "
    echo " "
    echo "                   MIUI ODEX"
-   echo " "
+   echo "                     $nowversion"
    echo " "
    echo "*************************************************"
    echo -e "\n- 您希望以什么模式进行Dex2oat\n"
