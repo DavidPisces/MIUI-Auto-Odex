@@ -1,6 +1,6 @@
 #!/bin/bash
 # MIUI ODEX项目贡献者：柚稚的孩纸(zjw2017) 雄氏老方(DavidPisces)
-nowversion=4.421
+nowversion=4.422
 workfile=/storage/emulated/0/MIUI_odex
 success_count=0
 faild_count=0
@@ -84,6 +84,7 @@ if [ $choose_odex == 4 ] ; then
 	  echo "  是否重新下载？"
 	  echo "[y] 下载"
 	  echo "[n] 取消"
+	  read choose_update
 	  if [ $choose_update == "y" ] ;then
 	     echo "- 正在下载更新，请坐和放宽"
 	     curl -s -o odex$latestversion.sh $latesturl
@@ -148,6 +149,7 @@ if [ $choose_odex == 5 ] ; then
 	  echo "  是否下载？"
 	  echo "[y] 下载"
 	  echo "[n] 取消"
+	  read choose_update
 	  if [ $choose_update == "y" ] ;then
 	     echo "- 正在下载更新，请坐和放宽"
 	     curl -s -o odex$latestversion.sh $latesturl
