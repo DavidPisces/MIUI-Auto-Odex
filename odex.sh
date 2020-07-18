@@ -2,10 +2,10 @@
 # MIUI ODEX项目贡献者：柚稚的孩纸(zjw2017) 雄氏老方(DavidPisces)
 
 # 更新脚本
-nowversion=4.0
+nowversion=4.5
 workfile=/storage/emulated/0/MIUI_odex
 success_count=0
-faild_count=0
+failed_count=0
 now_time=$(date '+%Y%m%d_%H:%M:%S')
 echo "- 正在准备环境"
 # rm
@@ -23,46 +23,50 @@ touch $workfile/log/MIUI_odex_$now_time.log
 # clear screen
 clear
 # 自动更新部分
- # choose Update method
+# choose Update method
 echo "*************************************************"
 echo " "
 echo " "
 echo "                   MIUI ODEX"
-echo "                  $nowversion"
+echo "                     $nowversion"
 echo " "
 echo " "
 echo "*************************************************"
 echo -e "\n- 是否检测更新\n"
 echo "  [y] 更新"
 echo "  [n] 取消"
-read -p "请输入选项:" if_update
+echo -e "\n请输入选项"
+read if_update
+clear
 if [ $if_update == y ] ; then
    echo "*************************************************"
    echo " "
    echo " "
    echo "                   MIUI ODEX"
-   echo "                  $nowversion"
+   echo "                     $nowversion"
    echo " "
    echo " "
    echo "*************************************************"
    echo -e "\n- 请确认更新的方式\n"
    echo "[1] Update From Github 从Github更新脚本"
    echo "[2] Update From Gitee 从Gitee更新(国内源)"
-   read -p "请输入选项:" update_method
+   echo -e "\n请输入选项"
+   read update_method
    if [ $update_method == 1 ] ; then
       # Github Raw
       clear
 	  echo "- 正在查询Github最新版本，请坐和放宽"
-      curl -s -o version https://raw.githubusercontent.com/DavidPisces/MIUI-Auto-Odex/master/version
+      curl -s -o version https://raw.githubusercontent.com/zjw2017/odex-For-MIUI-WeeklyReleases/master/version
 	  latestversion=$(cat version)
       is_update=$(echo "$latestversion > $nowversion" | bc)
 	  latestshname="odex.sh"
-      latesturl="https://raw.githubusercontent.com/DavidPisces/MIUI-Auto-Odex/master/odex.sh"
+      latesturl="https://raw.githubusercontent.com/zjw2017/odex-For-MIUI-WeeklyReleases/master/odex.sh"
 	  if [ $is_update != 0 ] ; then
          echo "! 发现新版本$latestversion，是否更新"
 	     echo "  [y] 更新"
 	     echo "  [n] 取消"
-	     read -p "请输入选项:" update_choice
+		 echo -e "\n请输入选项"
+	     read update_choice
 	     if [ $update_choice == "y" ] ;then
 	        echo "- 正在下载更新，请坐和放宽"
 			rm -rf odex.sh
@@ -87,7 +91,8 @@ if [ $if_update == y ] ; then
 	     echo "  是否重新下载？"
 	     echo "  [y] 下载"
 	     echo "  [n] 取消"
-	     read -p "请输入选项:" redownload
+		 echo -e "\n请输入选项"
+	     read redownload
 	     clear
 	     if [ $redownload == "y" ] ;then
 	        echo "- 正在下载更新，请坐和放宽"
@@ -123,7 +128,8 @@ if [ $if_update == y ] ; then
          echo "! 发现新版本$latestversion，是否更新"
 	     echo "  [y] 更新"
 	     echo "  [n] 取消"
-	     read -p "请输入选项:" update_choice
+		 echo -e "\n请输入选项"
+	     read update_choice
 	     if [ $update_choice == "y" ] ;then
 	        echo "- 正在下载更新，请坐和放宽"
 			rm -rf odex.sh
@@ -148,7 +154,8 @@ if [ $if_update == y ] ; then
 	     echo "  是否重新下载？"
 	     echo "  [y] 下载"
 	     echo "  [n] 取消"
-	     read -p "请输入选项:" redownload
+		 echo -e "\n请输入选项"
+	     read redownload
 	     clear
 	     if [ $redownload == "y" ] ;then
 	        echo "- 正在下载更新，请坐和放宽"
@@ -181,7 +188,7 @@ echo "*************************************************"
 echo " "
 echo " "
 echo "                   MIUI ODEX"
-echo "                  $nowversion"
+echo "                     $nowversion"
 echo " "
 echo " "
 echo "*************************************************"
@@ -190,7 +197,8 @@ echo "[1] Simple (耗时较少,占用空间少，仅编译重要应用)"
 echo "[2] Complete (耗时较长，占用空间大，完整编译)"
 echo "[3] Skip ODEX 不进行ODEX编译"
 echo "[4] Quit 退出"
-read -p "请输入选项:" choose_odex
+echo -e "\n请输入选项"
+read choose_odex
 if [ $choose_odex == 4 ] ; then
    echo "- 已退出"
    exit
@@ -200,14 +208,15 @@ else
    echo " "
    echo " "
    echo "                   MIUI ODEX"
-   echo "                  $nowversion"
+   echo "                     $nowversion"
    echo " "
    echo "*************************************************"
    echo -e "\n- 您希望以什么模式进行Dex2oat\n"
    echo "[1] Speed (快速编译,耗时较短)"
    echo "[2] Everything (完整编译,耗时较长)"
    echo "[3] 不进行Dex2oat编译"
-   read -p "请输入选项:" choose_dex2oat
+   echo -e "\n请输入选项"
+   read choose_dex2oat
    clear
    if [ $choose_odex == 3 ] ; then
    	  echo "- 跳过odex编译，不会生成模块"
@@ -280,14 +289,14 @@ else
       else
          echo "! 未检测到dex文件，跳过编译"
    	     rm  -rf $workfile/app/$i
-   	     let faild_count=faild_count+1
+   	     let failed_count=failed_count+1
    	     echo "$i ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
       fi
    else
       echo "! 解压$i失败，没有apk文件"
    	  rm  -rf $workfile/app/$i
    	  echo "$i ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
-   	  let faild_count=faild_count+1
+   	  let failed_count=failed_count+1
    fi
    done
    
@@ -332,14 +341,14 @@ else
       else
          echo "! 未检测到dex文件，跳过编译"
    	     rm -rf $workfile/priv-app/$p
-   	     let faild_count=faild_count+1
+   	     let failed_count=failed_count+1
    	     echo "$p ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
       fi
    else
       echo "! 解压$p失败，没有apk文件"
    	  echo "$p ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
    	  rm -rf $workfile/priv-app/$p
-   	  let faild_count=faild_count+1
+   	  let failed_count=failed_count+1
    fi
    done
    
@@ -384,14 +393,14 @@ else
       else
          echo "! 未检测到dex文件，跳过编译"
    	     rm  -rf $workfile/product/app/$a
-   	     let faild_count=faild_count+1
+   	     let failed_count=failed_count+1
    	     echo "$a ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
       fi
    else
       echo "! 解压$a失败，没有apk文件"
    	  rm  -rf $workfile/product/app/$a
    	  echo "$a ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
-   	  let faild_count=faild_count+1
+   	  let failed_count=failed_count+1
    fi
    done
    
@@ -436,18 +445,18 @@ else
       else
          echo "! 未检测到dex文件，跳过编译"
    	     rm -rf $workfile/product/priv-app/$b
-   	     let faild_count=faild_count+1
+   	     let failed_count=failed_count+1
    	     echo "$b ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
       fi
    else
       echo "! 解压$b失败，没有apk文件"
    	  rm -rf $workfile/product/priv-app/$b
    	  echo "$b ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
-   	  let faild_count=faild_count+1
+   	  let failed_count=failed_count+1
    fi
    done
    # end
-   echo "- 共$success_count次成功，$faild_count次失败，请检查对应目录"
+   echo "- 共$success_count次成功，$failed_count次失败，请检查对应目录"
    if [ $odex_module == true ] ; then
       # 生成模块
       echo "- 正在制作模块，请坐和放宽"
