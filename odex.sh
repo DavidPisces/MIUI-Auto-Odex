@@ -119,11 +119,11 @@ if [ $if_update == y ] ; then
       # Gitee Raw
       clear
 	  echo "- 正在查询Gitee最新版本，请坐和放宽"
-      curl -s -o version https://gitee.com/David-GithubClone/MIUI-Auto-Odex/raw/master/version
+      curl -s -o version https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/version
 	  latestversion=$(cat version)
       is_update=$(echo "$latestversion > $nowversion" | bc)
 	  latestshname="odex.sh"
-      latesturl="https://gitee.com/David-GithubClone/MIUI-Auto-Odex/raw/master/odex.sh"
+      latesturl="https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/odex.sh"
 	  if [ $is_update != 0 ] ; then
          echo "! 发现新版本$latestversion，是否更新"
 	     echo "  [y] 更新"
