@@ -37,8 +37,8 @@ echo "  [y] 更新"
 echo "  [n] 取消"
 echo -e "\n请输入选项"
 read if_update
-clear
 if [ $if_update == y ] ; then
+   clear
    echo "*************************************************"
    echo " "
    echo " "
@@ -53,8 +53,8 @@ if [ $if_update == y ] ; then
    echo -e "\n请输入选项"
    read update_method
    if [ $update_method == 1 ] ; then
-      # Github Raw
       clear
+	  # Github Raw
 	  echo "- 正在查询Github最新版本，请坐和放宽"
       curl -s -o version https://raw.githubusercontent.com/zjw2017/odex-For-MIUI-WeeklyReleases/master/version
 	  latestversion=$(cat version)
@@ -68,7 +68,8 @@ if [ $if_update == y ] ; then
 		 echo -e "\n请输入选项"
 	     read update_choice
 	     if [ $update_choice == "y" ] ;then
-	        echo "- 正在下载更新，请坐和放宽"
+	        clear
+			echo "- 正在下载更新，请坐和放宽"
 			rm -rf odex.sh
 	        curl -s -o odex.sh $latesturl
             if [ $? -eq 0 ]; then
@@ -93,9 +94,10 @@ if [ $if_update == y ] ; then
 	     echo "  [n] 取消"
 		 echo -e "\n请输入选项"
 	     read redownload
-	     clear
+	     
 	     if [ $redownload == "y" ] ;then
-	        echo "- 正在下载更新，请坐和放宽"
+	        clear
+			echo "- 正在下载更新，请坐和放宽"
 			rm -rf odex.sh
 	        curl -s -o odex.sh $latesturl
             if [ $? -eq 0 ]; then
@@ -117,7 +119,6 @@ if [ $if_update == y ] ; then
    fi
    if [ $update_method == 2 ] ; then
       # Gitee Raw
-      clear
 	  echo "- 正在查询Gitee最新版本，请坐和放宽"
       curl -s -o version https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/version
 	  latestversion=$(cat version)
@@ -156,9 +157,10 @@ if [ $if_update == y ] ; then
 	     echo "  [n] 取消"
 		 echo -e "\n请输入选项"
 	     read redownload
-	     clear
+	     
 	     if [ $redownload == "y" ] ;then
-	        echo "- 正在下载更新，请坐和放宽"
+	        clear
+			echo "- 正在下载更新，请坐和放宽"
 			rm -rf odex.sh
 	        curl -s -o odex.sh $latesturl
             if [ $? -eq 0 ]; then
@@ -203,6 +205,7 @@ if [ $choose_odex == 4 ] ; then
    echo "- 已退出"
    exit
 else
+   clear
    # choose dex2oat mod
    echo "*************************************************"
    echo " "
