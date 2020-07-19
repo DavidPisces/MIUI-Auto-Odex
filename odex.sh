@@ -2,7 +2,7 @@
 # MIUI ODEX项目贡献者：柚稚的孩纸(zjw2017) 雄氏老方(DavidPisces)
 
 # 更新脚本
-nowversion=4.5
+nowversion=4.51
 workfile=/storage/emulated/0/MIUI_odex
 success_count=0
 failed_count=0
@@ -151,7 +151,7 @@ if [ $if_update == y ] ; then
       else
          echo "- 未发现新版本"
 	     echo "  当前版本：$nowversion"
-	     echo "  Github版本：$latestversion"
+	     echo "  Gitee版本：$latestversion"
 	     echo "  是否重新下载？"
 	     echo "  [y] 下载"
 	     echo "  [n] 取消"
