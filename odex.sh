@@ -2,7 +2,7 @@
 # MIUI ODEX项目贡献者：柚稚的孩纸(zjw2017) 雄氏老方(DavidPisces)
 
 # 更新脚本
-nowversion=4.51
+nowversion=4.52
 workfile=/storage/emulated/0/MIUI_odex
 success_count=0
 failed_count=0
@@ -297,14 +297,14 @@ if [ $? = 0 ] ; then
    else
       echo "! 未检测到dex文件，跳过编译"
 	  rm  -rf $workfile/app/$i
-	  let faild_count=faild_count+1
+	  let failed_count=failed_count+1
 	  echo "$i ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
    fi
 else
       echo "! 解压$i失败，没有apk文件"
 	  rm  -rf $workfile/app/$i
 	  echo "$i ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
-	  let faild_count=faild_count+1
+	  let failed_count=failed_count+1
 fi
 done
 
@@ -349,14 +349,14 @@ if [ $? = 0 ] ; then
    else
       echo "! 未检测到dex文件，跳过编译"
 	  rm -rf $workfile/priv-app/$p
-	  let faild_count=faild_count+1
+	  let failed_count=failed_count+1
 	  echo "$p ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
    fi
 else
       echo "! 解压$p失败，没有apk文件"
 	  echo "$p ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
 	  rm -rf $workfile/priv-app/$p
-	  let faild_count=faild_count+1
+	  let failed_count=failed_count+1
 fi
 done
 
@@ -401,14 +401,14 @@ if [ $? = 0 ] ; then
    else
       echo "! 未检测到dex文件，跳过编译"
 	  rm  -rf $workfile/product/app/$a
-	  let faild_count=faild_count+1
+	  let failed_count=failed_count+1
 	  echo "$a ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
    fi
 else
       echo "! 解压$a失败，没有apk文件"
 	  rm  -rf $workfile/product/app/$a
 	  echo "$a ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
-	  let faild_count=faild_count+1
+	  let failed_count=failed_count+1
 fi
 done
 
@@ -453,18 +453,18 @@ if [ $? = 0 ] ; then
    else
       echo "! 未检测到dex文件，跳过编译"
 	  rm -rf $workfile/product/priv-app/$b
-	  let faild_count=faild_count+1
+	  let failed_count=failed_count+1
 	  echo "$b ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
    fi
 else
       echo "! 解压$b失败，没有apk文件"
 	  rm -rf $workfile/product/priv-app/$b
 	  echo "$b ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
-	  let faild_count=faild_count+1
+	  let failed_count=failed_count+1
 fi
 done
 # end
-echo "- 共$success_count次成功，$faild_count次失败，请检查对应目录"
+echo "- 共$success_count次成功，$failed_count次失败，请检查对应目录"
 if [ $odex_module == true ] ; then
    # 生成模块
    echo "- 正在制作模块，请坐和放宽"
