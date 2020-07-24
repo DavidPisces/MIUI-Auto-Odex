@@ -1,13 +1,11 @@
 #!/bin/bash
 # MIUI ODEX项目贡献者：柚稚的孩纸(zjw2017) 雄氏老方(DavidPisces)
-nowversion=4.43
+nowversion=4.44
 workfile=/storage/emulated/0/MIUI_odex
 success_count=0
-faild_count=0
+failed_count=0
 now_time=$(date '+%Y%m%d_%H:%M:%S')
 echo "- 正在准备环境"
-shopt -s extglob
-echo "- 报错为正常现象"
 # rm
 rm -rf $workfile
 rm-rf /data/adb/modules/miuiodex
@@ -221,7 +219,7 @@ else
           cp -r /system/app/* $workfile/app
           cp -r /system/priv-app/* $workfile/priv-app
           cp -r /system/product/app/* $workfile/product/app
-          cp -r system/product/priv-app/* $workfile/product/priv-app
+          cp -r /system/product/priv-app/* $workfile/product/priv-app
           echo "- 文件复制完成，开始执行"
 	      odex_module=true
 		fi
@@ -239,7 +237,7 @@ do
 # whether unzip apk success
 if [ $? = 0 ] ; then
    echo "- 解包$i成功，开始处理"
-   rm -rf !(*.dex)
+   rm -rf `find . ! -name '*.dex' `
    mkdir -p $workfile/app/$i/oat/arm64
    oat=$workfile/app/$i/oat/arm64
    count=`ls -l $workfile/app/$i/ | grep "^-" | wc -l`
@@ -270,14 +268,14 @@ if [ $? = 0 ] ; then
    else
       echo "! 未检测到dex文件，跳过编译"
 	  rm  -rf $workfile/app/$i
-	  let faild_count=faild_count+1
+	  let failed_count=failed_count+1
 	  echo "$i ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
    fi
 else
       echo "! 解压$i失败，没有apk文件"
 	  rm  -rf $workfile/app/$i
 	  echo "$i ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
-	  let faild_count=faild_count+1
+	  let failed_count=failed_count+1
 fi
 done
 
@@ -291,7 +289,7 @@ do
 # whether unzip apk success
 if [ $? = 0 ] ; then
    echo "- 解包$p成功，开始处理"
-   rm -rf !(*.dex)
+   rm -rf `find . ! -name '*.dex' `
    mkdir -p $workfile/priv-app/$p/oat/arm64
    privoat=$workfile/priv-app/$p/oat/arm64
    count=`ls -l $workfile/priv-app/$p/ | grep "^-" | wc -l`
@@ -322,14 +320,14 @@ if [ $? = 0 ] ; then
    else
       echo "! 未检测到dex文件，跳过编译"
 	  rm -rf $workfile/priv-app/$p
-	  let faild_count=faild_count+1
+	  let failed_count=failed_count+1
 	  echo "$p ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
    fi
 else
       echo "! 解压$p失败，没有apk文件"
 	  echo "$p ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
 	  rm -rf $workfile/priv-app/$p
-	  let faild_count=faild_count+1
+	  let failed_count=failed_count+1
 fi
 done
 
@@ -343,7 +341,7 @@ do
 # whether unzip apk success
 if [ $? = 0 ] ; then
    echo "- 解包$a成功，开始处理"
-   rm -rf !(*.dex)
+   rm -rf `find . ! -name '*.dex' `
    mkdir -p $workfile/product/app/$a/oat/arm64
    productappoat=$workfile/product/app/$a/oat/arm64
    count=`ls -l $workfile/product/app/$a/ | grep "^-" | wc -l`
@@ -374,14 +372,14 @@ if [ $? = 0 ] ; then
    else
       echo "! 未检测到dex文件，跳过编译"
 	  rm  -rf $workfile/product/app/$a
-	  let faild_count=faild_count+1
+	  let failed_count=failed_count+1
 	  echo "$a ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
    fi
 else
       echo "! 解压$a失败，没有apk文件"
 	  rm  -rf $workfile/product/app/$a
 	  echo "$a ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
-	  let faild_count=faild_count+1
+	  let failed_count=failed_count+1
 fi
 done
 
@@ -395,7 +393,7 @@ do
 # whether unzip apk success
 if [ $? = 0 ] ; then
    echo "- 解包$b成功，开始处理"
-   rm -rf !(*.dex)
+   rm -rf `find . ! -name '*.dex' `
    mkdir -p $workfile/product/priv-app/$b/oat/arm64
    productprivappoat=$workfile/product/priv-app/$b/oat/arm64
    count=`ls -l $workfile/product/priv-app/$b/ | grep "^-" | wc -l`
@@ -426,18 +424,18 @@ if [ $? = 0 ] ; then
    else
       echo "! 未检测到dex文件，跳过编译"
 	  rm -rf $workfile/product/priv-app/$b
-	  let faild_count=faild_count+1
+	  let failed_count=failed_count+1
 	  echo "$b ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
    fi
 else
       echo "! 解压$b失败，没有apk文件"
 	  rm -rf $workfile/product/priv-app/$b
 	  echo "$b ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
-	  let faild_count=faild_count+1
+	  let failed_count=failed_count+1
 fi
 done
 # end
-echo "- 共$success_count次成功，$faild_count次失败，请检查对应目录"
+echo "- 共$success_count次成功，$failed_count次失败，请检查对应目录"
 if [ $odex_module == true ] ; then
    # 生成模块
    echo "- 正在制作模块，请坐和放宽"
@@ -453,7 +451,7 @@ if [ $odex_module == true ] ; then
    ver="`grep -n "ro.miui.ui.version.name" /system/build.prop | cut -dV -f2`"
    modelversion="`grep -n "ro.system.build.version.incremental" /system/build.prop | cut -d= -f2`"
    time=$(date "+%Y年%m月%d日 %H:%M:%S")
-   echo -n "description=分离系统软件ODEX，MIUI版本 $ver $modelversion，编译时间$time [Build with $model]" >> /data/adb/modules/miuiodex/module.prop
+   echo -n "description=分离系统软件ODEX，MIUI$ver $modelversion，编译时间$time [Build with $model]" >> /data/adb/modules/miuiodex/module.prop
    mv $workfile/* /data/adb/modules/miuiodex/system
    if [ $? = 0 ] ; then
       mv /data/adb/modules/miuiodex/system/log $workfile
