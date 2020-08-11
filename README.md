@@ -37,6 +37,12 @@
 * 推荐使用Magisk 20.4及以上Magisk版本
 * 建议安装完整Busybox
 
+#### 执行错误
+
+* 如果你在初始化时遇到“syntax error”或者"inaccessible or not found"等错误，请执行[dos2unix]命令来去除文件中的^M，因为Windows系统编辑会将换行表示为^M符号，如果你遇到脚本执行直接报错，可以先使用[cat]命令来检查脚本内是否含有“^M”符号，再决定使用[dos2unix]命令来转换。
+* dos2unix用法：dos2unix filename   (例如：dos2unix odex.sh)
+* 使用cat获取文件内容：cat filename   (例如：cat odex.sh)
+
 #### 如何使用
 
 * MT管理器
