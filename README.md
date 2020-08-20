@@ -8,9 +8,9 @@
 
 雄氏老方 DavidPisces [[Github](https://github.com/DavidPisces)] | [[酷安](http://www.coolapk.com/u/665894)]
 
-柚稚的孩纸 zjw2017 [Github](https://github.com/zjw2017) [酷安](http://www.coolapk.com/u/1548958)
+柚稚的孩纸 zjw2017 [[Github](https://github.com/zjw2017)] | [[酷安](http://www.coolapk.com/u/1548958)]
 
-本仓库国内Gitee地址 [Gitee仓库](https://gitee.com/David-GithubClone/MIUI-Auto-Odex)
+本仓库国内Gitee地址 [[Gitee仓库](https://gitee.com/David-GithubClone/MIUI-Auto-Odex)]
 
 #### 能做什么
 
