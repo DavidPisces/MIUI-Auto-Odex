@@ -10,6 +10,8 @@
 
 柚稚的孩纸 zjw2017 [Github](https://github.com/zjw2017) [酷安](http://www.coolapk.com/u/1548958)
 
+本仓库国内Gitee地址 [Gitee仓库](https://gitee.com/David-GithubClone/MIUI-Auto-Odex)
+
 #### 能做什么
 
 > 此脚本能实现系统软件的Odex与odex2oat编译，适用于被MIUI官方删除Odex的机型
