@@ -385,11 +385,13 @@ fi
 done
 # end
 echo "- 共$success_count次成功，$failed_count次失败，请检查对应目录"
-echo "# 正在查找未删除的apk和dex"
+echo "# 正在查找未删除的apk dex lib"
 trash_apk=$(find $workfile -name "*.apk")
 trash_dex=$(find $workfile -name "*.dex")
+trash_lib=$(find $workfile -name "*lib")
 rm -rf $trash_apk
 rm -rf $trash_dex
+rm -rf $trash_lib
 echo "- 清除完成"
 if [ $odex_module == true ] ; then
    # 生成模块
