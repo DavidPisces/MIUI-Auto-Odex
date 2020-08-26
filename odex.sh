@@ -268,7 +268,7 @@ if [ $? = 0 ] ; then
 	  mkdir -p $workfile/app/$i/oat/arm64
       oat=$workfile/app/$i/oat/arm64
 	  dex2oat --dex-file=$workfile/app/$i/$i.apk --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat/$i.odex
-      ls $workfile/app/$i | grep -v oat | xargs rm
+      ls $workfile/app/$i/ | grep -v oat | xargs rm
 	  echo "- 已完成对$i的odex分离处理"
 	  let success_count=success_count+1
    else
@@ -385,6 +385,12 @@ fi
 done
 # end
 echo "- 共$success_count次成功，$failed_count次失败，请检查对应目录"
+echo "# 正在查找未删除的apk和dex"
+trash_apk=$(find $workfile -name "*.apk")
+trash_dex=$(find $workfile -name "*.dex")
+rm -rf $trash_apk
+rm -rf $trash_dex
+echo "- 清除完成"
 if [ $odex_module == true ] ; then
    # 生成模块
    echo "- 正在制作模块，请坐和放宽"
