@@ -10,7 +10,6 @@ now_time=$(date '+%Y%m%d_%H:%M:%S')
 echo "- 正在准备环境"
 # rm
 rm -rf $workfile
-rm -rf /data/adb/modules/miuiodex
 # mkdir
 echo "- 正在创建目录"
 mkdir -p /storage/emulated/0/MIUI_odex/log
@@ -214,6 +213,7 @@ if [ $choose_odex == 4 ] ; then
    exit
 else
    clear
+   rm -rf /data/adb/modules/miuiodex
    # choose dex2oat mod
    echo "*************************************************"
    echo " "
