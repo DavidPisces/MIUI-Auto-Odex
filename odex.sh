@@ -8,7 +8,6 @@ now_time=$(date '+%Y%m%d_%H:%M:%S')
 echo "- 正在准备环境"
 # rm
 rm -rf $workfile
-rm -rf /data/adb/modules/miuiodex
 # mkdir
 echo "- 正在创建目录"
 mkdir -p /storage/emulated/0/MIUI_odex/log
@@ -207,6 +206,7 @@ if [ $choose_odex == 3 ] ; then
 	echo "- 跳过odex编译，不会生成模块"
 	odex_module=false
 else
+    rm -rf /data/adb/modules/miuiodex
     if [ $choose_odex == 1 ] ; then
         echo "- 正在以Simple(简单)模式编译"
         cp -r /system/app/miui $workfile/app
