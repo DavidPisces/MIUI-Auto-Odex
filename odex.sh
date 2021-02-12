@@ -1,6 +1,6 @@
 #!/bin/bash
 # MIUI ODEX项目贡献者：柚稚的孩纸(zjw2017) 雄氏老方(DavidPisces)
-nowversion=5.0
+nowversion=5.1
 workfile=/storage/emulated/0/MIUI_odex
 success_count=0
 failed_count=0
