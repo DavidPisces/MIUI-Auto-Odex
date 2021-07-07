@@ -1,6 +1,6 @@
 #!/bin/bash
 # MIUI ODEX项目贡献者：柚稚的孩纸(zjw2017) 雄氏老方(DavidPisces)
-nowversion=6.0
+nowversion=6.1
 workfile=/storage/emulated/0/MIUI_odex/system
 success_count=0
 failed_count=0
@@ -70,7 +70,7 @@ fi
 SDK=$(getprop ro.system.build.version.sdk)
 # 获取MIUI版本号
 MIUI_version=$(getprop ro.miui.ui.version.name)
-# log
+# 输出日志文件
 touch /storage/emulated/0/MIUI_odex/log/MIUI_odex_$now_time.log
 # 清理屏幕
 clear
@@ -93,10 +93,23 @@ clear
 if [ $choose_odex == 3 ] ; then
    echo "- 跳过odex编译，不会生成模块"
    odex_module=false
+   # 选择Dex2oat方式
+   echo "*************************************************"
+   echo " "
+   echo " "
+   echo "                   MIUI ODEX"
+   echo "                     $nowversion"
+   echo " "
+   echo "*************************************************"
+   echo -e "\n- 您希望以什么模式进行Dex2oat\n"
+   echo "[1] Speed (快速编译,耗时较短)"
+   echo "[2] Everything (完整编译,耗时较长)"
+   echo -e "\n请输入选项"
+   read choose_dex2oat
 else
    # 删除上一次编译结果
    rm -rf /data/adb/modules/miuiodex
-   # choose dex2oat mod
+   # 选择Dex2oat方式
    echo "*************************************************"
    echo " "
    echo " "
@@ -175,334 +188,335 @@ else
 fi
 # 清理屏幕
 clear
-echo "- 开始处理framework"
-# /system/framework
-system_framework_jar=$(ls -l $workfile/framework | awk 'NR>1 {print $NF}')
-for a in $system_framework_jar
-do
-   cd $workfile/app/$a
-   rm -rf `find . ! -name '*.jar' `
-   mkdir -p $workfile/framework/oat/arm
-   mkdir -p $workfile/framework/oat/arm64
-   oat32_1=$workfile/framework/oat/arm
-   oat64_1=$workfile/framework/oat/arm64
-   jarhead=$(basename $a .jar)
-   echo "- 开始处理$a"
-   dex2oat --dex-file=$workfile/framework/$jarhead.jar --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat64_1/$jarhead.odex
-   dex2oat --dex-file=$workfile/framework/$jarhead.jar --compiler-filter=everything --instruction-set=arm --oat-file=$oat32_1/$jarhead.odex
-   rm -rf $workfile/framework/$jarhead.jar
-   echo "- 已完成对$a的处理"
-done
-if [ $is_product == 0 ] ;then
-   # /system/product/framework
-   system_product_framework_jar=$(ls -l $workfile/product/framework | awk 'NR>1 {print $NF}')
-   for b in $system_product_framework_jar
+if [ $choose_odex != 3 ] ; then
+   echo "- 开始处理framework"
+   # /system/framework
+   system_framework_jar=$(ls -l $workfile/framework | awk 'NR>1 {print $NF}')
+   for a in $system_framework_jar
    do
-      cd $workfile/app/$b
+      cd $workfile/app/$a
       rm -rf `find . ! -name '*.jar' `
-      mkdir -p $workfile/product/framework/oat/arm
-      mkdir -p $workfile/product/framework/oat/arm64
-      oat32_2=$workfile/product/framework/oat/arm
-      oat64_2=$workfile/product/framework/oat/arm64
-      jarhead=$(basename $b .jar)
-      echo "- 开始处理$b"
-      dex2oat --dex-file=$workfile/product/framework/$jarhead.jar --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat64_2/$jarhead.odex
-      dex2oat --dex-file=$workfile/product/framework/$jarhead.jar --compiler-filter=everything --instruction-set=arm --oat-file=$oat32_2/$jarhead.odex
-      rm -rf $workfile/product/framework/$jarhead.jar
-      echo "- 已完成对$b的处理"
+      mkdir -p $workfile/framework/oat/arm
+      mkdir -p $workfile/framework/oat/arm64
+      oat32_1=$workfile/framework/oat/arm
+      oat64_1=$workfile/framework/oat/arm64
+      jarhead=$(basename $a .jar)
+      echo "- 开始处理$a"
+      dex2oat --dex-file=$workfile/framework/$jarhead.jar --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat64_1/$jarhead.odex
+      dex2oat --dex-file=$workfile/framework/$jarhead.jar --compiler-filter=everything --instruction-set=arm --oat-file=$oat32_1/$jarhead.odex
+      rm -rf $workfile/framework/$jarhead.jar
+      echo "- 已完成对$a的处理"
    done
-fi
-if [ $is_system_ext == 0 ] ;then
-   # /system/system_ext/framework
-   system_ext_framework_jar=$(ls -l $workfile/system_ext/framework | awk 'NR>1 {print $NF}')
-   for c in $system_ext_framework_jar
+   if [ $is_product == 0 ] ;then
+      # /system/product/framework
+      system_product_framework_jar=$(ls -l $workfile/product/framework | awk 'NR>1 {print $NF}')
+      for b in $system_product_framework_jar
+      do
+         cd $workfile/app/$b
+         rm -rf `find . ! -name '*.jar' `
+         mkdir -p $workfile/product/framework/oat/arm
+         mkdir -p $workfile/product/framework/oat/arm64
+         oat32_2=$workfile/product/framework/oat/arm
+         oat64_2=$workfile/product/framework/oat/arm64
+         jarhead=$(basename $b .jar)
+         echo "- 开始处理$b"
+         dex2oat --dex-file=$workfile/product/framework/$jarhead.jar --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat64_2/$jarhead.odex
+         dex2oat --dex-file=$workfile/product/framework/$jarhead.jar --compiler-filter=everything --instruction-set=arm --oat-file=$oat32_2/$jarhead.odex
+         rm -rf $workfile/product/framework/$jarhead.jar
+         echo "- 已完成对$b的处理"
+      done
+   fi
+   if [ $is_system_ext == 0 ] ;then
+      # /system/system_ext/framework
+      system_ext_framework_jar=$(ls -l $workfile/system_ext/framework | awk 'NR>1 {print $NF}')
+      for c in $system_ext_framework_jar
+      do
+         cd $workfile/app/$c
+         rm -rf `find . ! -name '*.jar' `
+         mkdir -p $workfile/system_ext/framework/oat/arm
+         mkdir -p $workfile/system_ext/framework/oat/arm64
+         oat32_3=$workfile/system_ext/framework/oat/arm
+         oat64_3=$workfile/system_ext/framework/oat/arm64
+         jarhead=$(basename $c .jar)
+         echo "- 开始处理$c"
+         dex2oat --dex-file=$workfile/system_ext/framework/$jarhead.jar --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat64_3/$jarhead.odex
+         dex2oat --dex-file=$workfile/system_ext/framework/$jarhead.jar --compiler-filter=everything --instruction-set=arm --oat-file=$oat32_3/$jarhead.odex
+         rm -rf $workfile/system_ext/framework/$jarhead.jar
+         echo "- 已完成对$c的处理"
+      done   
+   fi
+   echo "- 已完成对framework的处理"
+   # system/app
+   system_app=$(ls -l $workfile/app | awk '/^d/ {print $NF}')
+   for d in $system_app
    do
-      cd $workfile/app/$c
-      rm -rf `find . ! -name '*.jar' `
-      mkdir -p $workfile/system_ext/framework/oat/arm
-      mkdir -p $workfile/system_ext/framework/oat/arm64
-      oat32_3=$workfile/system_ext/framework/oat/arm
-      oat64_3=$workfile/system_ext/framework/oat/arm64
-      jarhead=$(basename $c .jar)
-      echo "- 开始处理$c"
-      dex2oat --dex-file=$workfile/system_ext/framework/$jarhead.jar --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat64_3/$jarhead.odex
-      dex2oat --dex-file=$workfile/system_ext/framework/$jarhead.jar --compiler-filter=everything --instruction-set=arm --oat-file=$oat32_3/$jarhead.odex
-      rm -rf $workfile/system_ext/framework/$jarhead.jar
-      echo "- 已完成对$c的处理"
-   done   
-fi
-echo "- 已完成对framework的处理"
-# system/app
-system_app=$(ls -l $workfile/app | awk '/^d/ {print $NF}')
-for d in $system_app
-do
-   cd $workfile/app/$d
-   rm -rf `find . ! -name '*.apk' `
-# unzip
-   unzip -q -o *.apk "classes.dex"
-# whether unzip apk success
-   if [ $? = 0 ] ; then
-      echo "- 解包$d成功，开始处理"
-   # 判断是否存在classes.dex
-      if [ -f "classes.dex" ] ; then
-         echo "! 已检测到dex文件，开始编译"
-	     mkdir -p $workfile/app/$d/oat/arm64
-         oat_1=$workfile/app/$d/oat/arm64
-	     dex2oat --dex-file=$workfile/app/$d/$d.apk --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat_1/$d.odex
-	     rm -rf `find . -maxdepth 1 ! -name 'oat' `
-	     echo "- 已完成对$d的odex分离处理"
-	     let success_count=success_count+1
-      else
-         echo "! 未检测到dex文件，跳过编译"
-	     rm -rf $workfile/app/$d
-	     let failed_count=failed_count+1
-	     echo "$d ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
-      fi
-   else
-      echo "! 解压$d失败，没有apk文件"
-      rm -rf $workfile/app/$d
-      echo "$d ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
-      let failed_count=failed_count+1
-   fi
-done
-# system/priv-app
-system_priv_app=$(ls -l $workfile/priv-app | awk '/^d/ {print $NF}')
-for e in $system_priv_app
-do
-   cd $workfile/priv-app/$e
-   rm -rf `find . ! -name '*.apk' `
-# unzip
-   unzip -q -o *.apk "classes.dex"
-# whether unzip apk success
-   if [ $? = 0 ] ; then
-      echo "- 解包$e成功，开始处理"
+      cd $workfile/app/$d
+      rm -rf `find . ! -name '*.apk' `
+   # 解压
+      unzip -q -o *.apk "classes.dex"
+   # 解压apk是否成功
+      if [ $? = 0 ] ; then
+         echo "- 解包$d成功，开始处理"
       # 判断是否存在classes.dex
-      if [ -f "classes.dex" ] ; then
-         echo "! 已检测到dex文件，开始编译"
-	     mkdir -p $workfile/priv-app/$e/oat/arm64
-         oat_2=$workfile/priv-app/$e/oat/arm64
-	     dex2oat --dex-file=$workfile/priv-app/$e/$e.apk --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat_2/$e.odex
-         rm -rf `find . -maxdepth 1 ! -name 'oat' `
-	     echo "- 已完成对$e的odex分离处理"
-	     let success_count=success_count+1
+         if [ -f "classes.dex" ] ; then
+            echo "! 已检测到dex文件，开始编译"
+   	     mkdir -p $workfile/app/$d/oat/arm64
+            oat_1=$workfile/app/$d/oat/arm64
+   	     dex2oat --dex-file=$workfile/app/$d/$d.apk --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat_1/$d.odex
+   	     rm -rf `find . -maxdepth 1 ! -name 'oat' `
+   	     echo "- 已完成对$d的odex分离处理"
+   	     let success_count=success_count+1
+         else
+            echo "! 未检测到dex文件，跳过编译"
+   	     rm -rf $workfile/app/$d
+   	     let failed_count=failed_count+1
+   	     echo "$d ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
+         fi
       else
-         echo "! 未检测到dex文件，跳过编译"
-	     rm -rf $workfile/priv-app/$e
-	     let failed_count=failed_count+1
-	     echo "$e ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
+         echo "! 解压$d失败，没有apk文件"
+         rm -rf $workfile/app/$d
+         echo "$d ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
+         let failed_count=failed_count+1
       fi
-   else
-      echo "! 解压$e失败，没有apk文件"
-      rm -rf $workfile/priv-app/$e
-      echo "$e ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
-      let failed_count=failed_count+1
-   fi
-done
-if [ $is_product == 0 ] ;then
-# system/product/app
-system_product_app=$(ls -l $workfile/product/app | awk '/^d/ {print $NF}')
-for f in $system_product_app
-do
-   cd $workfile/product/app/$f
-   rm -rf `find . ! -name '*.apk' `
-# unzip
-   unzip -q -o *.apk "classes.dex"
-# whether unzip apk success
-   if [ $? = 0 ] ; then
-      echo "- 解包$f成功，开始处理"
-      # 判断是否存在classes.dex
-      if [ -f "classes.dex" ] ; then
-         echo "! 已检测到dex文件，开始编译"
-	     mkdir -p $workfile/product/app/$f/oat/arm64
-         oat_3=$workfile/product/app/$f/oat/arm64
-	     dex2oat --dex-file=$workfile/product/app/$f/$f.apk --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat_3/$f.odex
-	     rm -rf `find . -maxdepth 1 ! -name 'oat' `
-	     echo "- 已完成对$f的odex分离处理"
-	     let success_count=success_count+1
-      else
-         echo "! 未检测到dex文件，跳过编译"
-	     rm -rf $workfile/product/app/$f
-	     let failed_count=failed_count+1
-	     echo "$f ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
-      fi
-   else
-      echo "! 解压$a失败，没有apk文件"
-      rm -rf $workfile/product/app/$f
-      echo "$f ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
-      let failed_count=failed_count+1
-   fi
-done
-# /system/product/priv-app
-system_product_priv_app=$(ls -l $workfile/product/priv-app | awk '/^d/ {print $NF}')
-for g in $system_product_priv_app
-do
-   cd $workfile/product/priv-app/$g
-   rm -rf `find . ! -name '*.apk' `
-# unzip
-   unzip -q -o *.apk "classes.dex"
-# whether unzip apk success
-   if [ $? = 0 ] ; then
-      echo "- 解包$g成功，开始处理"
-      # 判断是否存在classes.dex
-      if [ -f "classes.dex" ] ; then
-         echo "! 已检测到dex文件，开始编译"
-	     mkdir -p $workfile/product/priv-app/$g/oat/arm64
-         oat_4=$workfile/product/priv-app/$g/oat/arm64
-	     dex2oat --dex-file=$workfile/product/priv-app/$g/$g.apk --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat_4/$g.odex
-	     rm -rf `find . -maxdepth 1 ! -name 'oat' `
-	     echo "- 已完成对$g的odex分离处理"
-	     let success_count=success_count+1
-      else
-         echo "! 未检测到dex文件，跳过编译"
-	     rm -rf $workfile/product/priv-app/$g
-	     let failed_count=failed_count+1
-	     echo "$g ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
-      fi
-   else
-      echo "! 解压$g失败，没有apk文件"
-      rm -rf $workfile/product/priv-app/$g
-      echo "$g ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
-      let failed_count=failed_count+1
-   fi
-done
-fi
-if [ $is_system_ext == 0 ] ;then
-# system/system_ext/app
-system_system_ext_app=$(ls -l $workfile/system_ext/app | awk '/^d/ {print $NF}')
-for h in $system_system_ext_app
-do
-   cd $workfile/system_ext/app/$h
-   rm -rf `find . ! -name '*.apk' `
-# unzip
-   unzip -q -o *.apk "classes.dex"
-# whether unzip apk success
-   if [ $? = 0 ] ; then
-      echo "- 解包$h成功，开始处理"
-      # 判断是否存在classes.dex
-      if [ -f "classes.dex" ] ; then
-         echo "! 已检测到dex文件，开始编译"
-	     mkdir -p $workfile/system_ext/app/$h/oat/arm64
-         oat_5=$workfile/system_ext/app/$h/oat/arm64
-	     dex2oat --dex-file=$workfile/system_ext/app/$h/$h.apk --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat_5/$h.odex
-	     rm -rf `find . -maxdepth 1 ! -name 'oat' `
-	     echo "- 已完成对$h的odex分离处理"
-	     let success_count=success_count+1
-      else
-         echo "! 未检测到dex文件，跳过编译"
-	     rm -rf $workfile/system_ext/app/$f
-	     let failed_count=failed_count+1
-	     echo "$h ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
-      fi
-   else
-      echo "! 解压$h失败，没有apk文件"
-      rm -rf $workfile/system_ext/app/$f
-      echo "$h ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
-      let failed_count=failed_count+1
-   fi
-done
-# /system/system_ext/priv-app
-system_system_ext_priv_app=$(ls -l $workfile/system_ext/priv-app | awk '/^d/ {print $NF}')
-for i in $system_system_ext_priv_app
-do
-   cd $workfile/system_ext/priv-app/$i
-   rm -rf `find . ! -name '*.apk' `
-# unzip
-   unzip -q -o *.apk "classes.dex"
-# whether unzip apk success
-   if [ $? = 0 ] ; then
-      echo "- 解包$i成功，开始处理"
-      # 判断是否存在classes.dex
-      if [ -f "classes.dex" ] ; then
-         echo "! 已检测到dex文件，开始编译"
-	     mkdir -p $workfile/system_ext/priv-app/$i/oat/arm64
-         oat_6=$workfile/system_ext/priv-app/$i/oat/arm64
-	     dex2oat --dex-file=$workfile/system_ext/priv-app/$i/$i.apk --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat_6/$i.odex
-	     rm -rf `find . -maxdepth 1 ! -name 'oat' `
-	     echo "- 已完成对$i的odex分离处理"
-	     let success_count=success_count+1
-      else
-         echo "! 未检测到dex文件，跳过编译"
-	     rm -rf $workfile/system_ext/priv-app/$g
-	     let failed_count=failed_count+1
-	     echo "$i ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
-      fi
-   else
-      echo "! 解压$i失败，没有apk文件"
-      rm -rf $workfile/system_ext/priv-app/$g
-      echo "$g ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
-      let failed_count=failed_count+1
-   fi
-done
-fi
-if [ $is_vendor_app == 0 ] ;then
-# system/vendor/app
-system_vendor_app=$(ls -l $workfile/vendor/app | awk '/^d/ {print $NF}')
-for j in $system_system_ext_app
-do
-   cd $workfile/vendor/app/$j
-   rm -rf `find . ! -name '*.apk' `
-# unzip
-   unzip -q -o *.apk "classes.dex"
-# whether unzip apk success
-   if [ $? = 0 ] ; then
-      echo "- 解包$j成功，开始处理"
-      # 判断是否存在classes.dex
-      if [ -f "classes.dex" ] ; then
-         echo "! 已检测到dex文件，开始编译"
-	     mkdir -p $workfile/vendor/app/$j/oat/arm64
-         oat_7=$workfile/vendor/app/$j/oat/arm64
-	     dex2oat --dex-file=$workfile/vendor/app/$j/$j.apk --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat_7/$j.odex
-	     rm -rf `find . -maxdepth 1 ! -name 'oat' `
-	     echo "- 已完成对$j的odex分离处理"
-	     let success_count=success_count+1
-      else
-         echo "! 未检测到dex文件，跳过编译"
-	     rm -rf $workfile/vendor/app/$f
-	     let failed_count=failed_count+1
-	     echo "$j ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
-      fi
-   else
-      echo "! 解压$j失败，没有apk文件"
-      rm -rf $workfile/vendor/app/$f
-      echo "$j ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
-      let failed_count=failed_count+1
-   fi
-done
-fi
-# end
-echo "- 共$success_count次成功，$failed_count次失败，请检查对应目录"
-if [ $odex_module == true ] ; then
-   # 生成模块
-   echo "- 正在制作模块，请坐和放宽"
-   mkdir -p /data/adb/modules/miuiodex/system
-   touch /data/adb/modules/miuiodex/module.prop
-   echo "id=miuiodex" >> /data/adb/modules/miuiodex/module.prop
-   echo "name=MIUI ODEX" >> /data/adb/modules/miuiodex/module.prop
-   echo "version=$nowversion" >> /data/adb/modules/miuiodex/module.prop
-   echo "versionCode=1" >> /data/adb/modules/miuiodex/module.prop
-   echo "author=柚稚的孩纸&雄式老方" >> /data/adb/modules/miuiodex/module.prop
-   echo "minMagisk=23000" >> /data/adb/modules/miuiodex/module.prop
-   ver="`grep -n "ro.miui.ui.version.name" /system/build.prop | cut -dV -f2`"
-   modelversion="`grep -n "ro.system.build.version.incremental" /system/build.prop | cut -d= -f2`"
-   time=$(date "+%Y年%m月%d日 %H:%M:%S")
-   echo -n "description=分离系统软件ODEX，MIUI$ver $modelversion，编译时间$time" >> /data/adb/modules/miuiodex/module.prop
-   # 删除空文件夹
-   emptydir=$(find ./ -type d -empty)
-   for k in $emptydir
-   do
-      rm -rf $k
    done
-   # 移动相关文件
-   mv $workfile/* /data/adb/modules/miuiodex/system
-   if [ $? = 0 ] ; then
-      echo "- 模块制作完成，请重启生效"
-   else
-      echo "! 模块制作失败"
+   # system/priv-app
+   system_priv_app=$(ls -l $workfile/priv-app | awk '/^d/ {print $NF}')
+   for e in $system_priv_app
+   do
+      cd $workfile/priv-app/$e
+      rm -rf `find . ! -name '*.apk' `
+   # 解压
+      unzip -q -o *.apk "classes.dex"
+   # 解压apk是否成功
+      if [ $? = 0 ] ; then
+         echo "- 解包$e成功，开始处理"
+         # 判断是否存在classes.dex
+         if [ -f "classes.dex" ] ; then
+            echo "! 已检测到dex文件，开始编译"
+   	     mkdir -p $workfile/priv-app/$e/oat/arm64
+            oat_2=$workfile/priv-app/$e/oat/arm64
+   	     dex2oat --dex-file=$workfile/priv-app/$e/$e.apk --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat_2/$e.odex
+            rm -rf `find . -maxdepth 1 ! -name 'oat' `
+   	     echo "- 已完成对$e的odex分离处理"
+   	     let success_count=success_count+1
+         else
+            echo "! 未检测到dex文件，跳过编译"
+   	     rm -rf $workfile/priv-app/$e
+   	     let failed_count=failed_count+1
+   	     echo "$e ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
+         fi
+      else
+         echo "! 解压$e失败，没有apk文件"
+         rm -rf $workfile/priv-app/$e
+         echo "$e ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
+         let failed_count=failed_count+1
+      fi
+   done
+   if [ $is_product == 0 ] ;then
+   # system/product/app
+   system_product_app=$(ls -l $workfile/product/app | awk '/^d/ {print $NF}')
+   for f in $system_product_app
+   do
+      cd $workfile/product/app/$f
+      rm -rf `find . ! -name '*.apk' `
+   # 解压
+      unzip -q -o *.apk "classes.dex"
+   # 解压apk是否成功
+      if [ $? = 0 ] ; then
+         echo "- 解包$f成功，开始处理"
+         # 判断是否存在classes.dex
+         if [ -f "classes.dex" ] ; then
+            echo "! 已检测到dex文件，开始编译"
+   	     mkdir -p $workfile/product/app/$f/oat/arm64
+            oat_3=$workfile/product/app/$f/oat/arm64
+   	     dex2oat --dex-file=$workfile/product/app/$f/$f.apk --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat_3/$f.odex
+   	     rm -rf `find . -maxdepth 1 ! -name 'oat' `
+   	     echo "- 已完成对$f的odex分离处理"
+   	     let success_count=success_count+1
+         else
+            echo "! 未检测到dex文件，跳过编译"
+   	     rm -rf $workfile/product/app/$f
+   	     let failed_count=failed_count+1
+   	     echo "$f ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
+         fi
+      else
+         echo "! 解压$a失败，没有apk文件"
+         rm -rf $workfile/product/app/$f
+         echo "$f ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
+         let failed_count=failed_count+1
+      fi
+   done
+   # /system/product/priv-app
+   system_product_priv_app=$(ls -l $workfile/product/priv-app | awk '/^d/ {print $NF}')
+   for g in $system_product_priv_app
+   do
+      cd $workfile/product/priv-app/$g
+      rm -rf `find . ! -name '*.apk' `
+   # 解压
+      unzip -q -o *.apk "classes.dex"
+   # 解压apk是否成功
+      if [ $? = 0 ] ; then
+         echo "- 解包$g成功，开始处理"
+         # 判断是否存在classes.dex
+         if [ -f "classes.dex" ] ; then
+            echo "! 已检测到dex文件，开始编译"
+   	     mkdir -p $workfile/product/priv-app/$g/oat/arm64
+            oat_4=$workfile/product/priv-app/$g/oat/arm64
+   	     dex2oat --dex-file=$workfile/product/priv-app/$g/$g.apk --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat_4/$g.odex
+   	     rm -rf `find . -maxdepth 1 ! -name 'oat' `
+   	     echo "- 已完成对$g的odex分离处理"
+   	     let success_count=success_count+1
+         else
+            echo "! 未检测到dex文件，跳过编译"
+   	     rm -rf $workfile/product/priv-app/$g
+   	     let failed_count=failed_count+1
+   	     echo "$g ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
+         fi
+      else
+         echo "! 解压$g失败，没有apk文件"
+         rm -rf $workfile/product/priv-app/$g
+         echo "$g ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
+         let failed_count=failed_count+1
+      fi
+   done
    fi
-else
-   echo "- 未选择编译odex选项，不会生成模块"
+   if [ $is_system_ext == 0 ] ;then
+   # system/system_ext/app
+   system_system_ext_app=$(ls -l $workfile/system_ext/app | awk '/^d/ {print $NF}')
+   for h in $system_system_ext_app
+   do
+      cd $workfile/system_ext/app/$h
+      rm -rf `find . ! -name '*.apk' `
+   # 解压
+      unzip -q -o *.apk "classes.dex"
+   # 解压apk是否成功
+      if [ $? = 0 ] ; then
+         echo "- 解包$h成功，开始处理"
+         # 判断是否存在classes.dex
+         if [ -f "classes.dex" ] ; then
+            echo "! 已检测到dex文件，开始编译"
+   	     mkdir -p $workfile/system_ext/app/$h/oat/arm64
+            oat_5=$workfile/system_ext/app/$h/oat/arm64
+   	     dex2oat --dex-file=$workfile/system_ext/app/$h/$h.apk --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat_5/$h.odex
+   	     rm -rf `find . -maxdepth 1 ! -name 'oat' `
+   	     echo "- 已完成对$h的odex分离处理"
+   	     let success_count=success_count+1
+         else
+            echo "! 未检测到dex文件，跳过编译"
+   	     rm -rf $workfile/system_ext/app/$f
+   	     let failed_count=failed_count+1
+   	     echo "$h ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
+         fi
+      else
+         echo "! 解压$h失败，没有apk文件"
+         rm -rf $workfile/system_ext/app/$f
+         echo "$h ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
+         let failed_count=failed_count+1
+      fi
+   done
+   # /system/system_ext/priv-app
+   system_system_ext_priv_app=$(ls -l $workfile/system_ext/priv-app | awk '/^d/ {print $NF}')
+   for i in $system_system_ext_priv_app
+   do
+      cd $workfile/system_ext/priv-app/$i
+      rm -rf `find . ! -name '*.apk' `
+   # 解压
+      unzip -q -o *.apk "classes.dex"
+   # 解压apk是否成功
+      if [ $? = 0 ] ; then
+         echo "- 解包$i成功，开始处理"
+         # 判断是否存在classes.dex
+         if [ -f "classes.dex" ] ; then
+            echo "! 已检测到dex文件，开始编译"
+   	     mkdir -p $workfile/system_ext/priv-app/$i/oat/arm64
+            oat_6=$workfile/system_ext/priv-app/$i/oat/arm64
+   	     dex2oat --dex-file=$workfile/system_ext/priv-app/$i/$i.apk --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat_6/$i.odex
+   	     rm -rf `find . -maxdepth 1 ! -name 'oat' `
+   	     echo "- 已完成对$i的odex分离处理"
+   	     let success_count=success_count+1
+         else
+            echo "! 未检测到dex文件，跳过编译"
+   	     rm -rf $workfile/system_ext/priv-app/$g
+   	     let failed_count=failed_count+1
+   	     echo "$i ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
+         fi
+      else
+         echo "! 解压$i失败，没有apk文件"
+         rm -rf $workfile/system_ext/priv-app/$g
+         echo "$g ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
+         let failed_count=failed_count+1
+      fi
+   done
+   fi
+   if [ $is_vendor_app == 0 ] ;then
+   # system/vendor/app
+   system_vendor_app=$(ls -l $workfile/vendor/app | awk '/^d/ {print $NF}')
+   for j in $system_system_ext_app
+   do
+      cd $workfile/vendor/app/$j
+      rm -rf `find . ! -name '*.apk' `
+   # 解压
+      unzip -q -o *.apk "classes.dex"
+   # 解压apk是否成功
+      if [ $? = 0 ] ; then
+         echo "- 解包$j成功，开始处理"
+         # 判断是否存在classes.dex
+         if [ -f "classes.dex" ] ; then
+            echo "! 已检测到dex文件，开始编译"
+   	     mkdir -p $workfile/vendor/app/$j/oat/arm64
+            oat_7=$workfile/vendor/app/$j/oat/arm64
+   	     dex2oat --dex-file=$workfile/vendor/app/$j/$j.apk --compiler-filter=everything --instruction-set=arm64 --oat-file=$oat_7/$j.odex
+   	     rm -rf `find . -maxdepth 1 ! -name 'oat' `
+   	     echo "- 已完成对$j的odex分离处理"
+   	     let success_count=success_count+1
+         else
+            echo "! 未检测到dex文件，跳过编译"
+   	     rm -rf $workfile/vendor/app/$f
+   	     let failed_count=failed_count+1
+   	     echo "$j ：编译失败，没有dex文件" >> $workfile/log/MIUI_odex_$now_time.log
+         fi
+      else
+         echo "! 解压$j失败，没有apk文件"
+         rm -rf $workfile/vendor/app/$f
+         echo "$j ：编译失败，没有apk文件" >> $workfile/log/MIUI_odex_$now_time.log
+         let failed_count=failed_count+1
+      fi
+   done
+   fi
+   # 执行结束
+   echo "- 共$success_count次成功，$failed_count次失败，请检查对应目录"
+   if [ $odex_module == true ] ; then
+      # 生成模块
+      echo "- 正在制作模块，请坐和放宽"
+      mkdir -p /data/adb/modules/miuiodex/system
+      touch /data/adb/modules/miuiodex/module.prop
+      echo "id=miuiodex" >> /data/adb/modules/miuiodex/module.prop
+      echo "name=MIUI ODEX" >> /data/adb/modules/miuiodex/module.prop
+      echo "version=$nowversion" >> /data/adb/modules/miuiodex/module.prop
+      echo "versionCode=1" >> /data/adb/modules/miuiodex/module.prop
+      echo "author=柚稚的孩纸&雄式老方" >> /data/adb/modules/miuiodex/module.prop
+      echo "minMagisk=23000" >> /data/adb/modules/miuiodex/module.prop
+      ver="`grep -n "ro.miui.ui.version.name" /system/build.prop | cut -dV -f2`"
+      modelversion="`grep -n "ro.system.build.version.incremental" /system/build.prop | cut -d= -f2`"
+      time=$(date "+%Y年%m月%d日 %H:%M:%S")
+      echo -n "description=分离系统软件ODEX，MIUI$ver $modelversion，编译时间$time" >> /data/adb/modules/miuiodex/module.prop
+      # 删除空文件夹
+      emptydir=$(find ./ -type d -empty)
+      for k in $emptydir
+      do
+         rm -rf $k
+      done
+      # 移动相关文件
+      mv $workfile/* /data/adb/modules/miuiodex/system
+      if [ $? = 0 ] ; then
+         echo "- 模块制作完成，请重启生效"
+      else
+         echo "! 模块制作失败"
+      fi
+   else
+      echo "- 未选择编译odex选项，不会生成模块"
+   fi
 fi
-
 if [ $choose_odex == 3 ] ;then 
    echo "- 不进行ODEX编译"
    mkdir -p $workfile/packagelist
