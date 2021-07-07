@@ -73,6 +73,7 @@ if [ $if_update == y ] ; then
 	  else
 	     if [ $DavidPisces_New = 1 ] ; then
             echo "! 发现新版本$DavidPisces，是否更新"
+			echo "！作者： 雄氏老方"
 	        echo "  [y] 更新"
 	        echo "  [n] 取消"
 		    echo -e "\n请输入选项"
@@ -101,6 +102,7 @@ if [ $if_update == y ] ; then
          else
 		    if [ $zjw2017_New = 1 ] ; then
                echo "! 发现新版本$zjw2017，是否更新"
+			   echo "！作者： 柚稚的孩纸"
 	           echo "  [y] 更新"
 	           echo "  [n] 取消"
 		       echo -e "\n请输入选项"
