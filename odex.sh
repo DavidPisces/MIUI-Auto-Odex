@@ -1,6 +1,6 @@
 #!/bin/bash
 # MIUI ODEX项目贡献者：柚稚的孩纸(zjw2017) 雄氏老方(DavidPisces)
-nowversion=6.1
+nowversion=6.2
 workfile=/storage/emulated/0/MIUI_odex/system
 success_count=0
 failed_count=0
@@ -501,6 +501,7 @@ if [ $choose_odex != 3 ] ; then
       time=$(date "+%Y年%m月%d日 %H:%M:%S")
       echo -n "description=分离系统软件ODEX，MIUI$ver $modelversion，编译时间$time" >> /data/adb/modules/miuiodex/module.prop
       # 删除空文件夹
+	  cd $workfile
       emptydir=$(find ./ -type d -empty)
       for k in $emptydir
       do
