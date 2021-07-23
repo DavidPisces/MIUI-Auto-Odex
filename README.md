@@ -8,8 +8,9 @@
 
 DavidPisces [[Github](https://github.com/DavidPisces)] | [[Coolapk](http://www.coolapk.com/u/665894)]
 
-zjw2017 [[Github](https://github.com/zjw2017)] | [[Coolapk](http://www.coolapk.com/u/1548958)]
+zjw2017 [[Github](https://github.com/zjw2017)] | [[Coolapk](http://www.coolapk.com/u/154895[[8)]
 
+[[Chinese version]](https://github.com/DavidPisces/MIUI-Auto-Odex/tree/master)
 
 #### What can it doos
 
