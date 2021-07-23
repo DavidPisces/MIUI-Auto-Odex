@@ -1,63 +1,55 @@
 # MIUI ODEX
 
-##### 一个适用于中国版MIUI自动化Odex shell脚本
+##### A shell script to process ODEX for MIUI
 
 ***
 
-### 贡献者
+### Contributors
 
-雄氏老方 DavidPisces [[Github](https://github.com/DavidPisces)] | [[酷安](http://www.coolapk.com/u/665894)]
+DavidPisces [[Github](https://github.com/DavidPisces)] | [[Coolapk](http://www.coolapk.com/u/665894)]
 
-柚稚的孩纸 zjw2017 [[Github](https://github.com/zjw2017)] | [[酷安](http://www.coolapk.com/u/1548958)]
+zjw2017 [[Github](https://github.com/zjw2017)] | [[Coolapk](http://www.coolapk.com/u/1548958)]
 
-本仓库国内Gitee地址 [[Gitee仓库](https://gitee.com/David-GithubClone/MIUI-Auto-Odex)]
 
-#### 能做什么
+#### What can it doos
 
-> 此脚本能实现系统软件的Odex与odex2oat编译，适用于被MIUI官方删除Odex的机型
+> This software can compile ODEX and odex2oat of the system software, and is applicable to the models that have been officially deleted by MIUI
 >
-> 支持Complete(完整)与Simple(简单)编译模式，Speed与Everything两种dex2oat编译模式
+> Support complete and simple compilation modes, and speed and everything two dex2oat compilation modes
 >
-> 支持生成odex文件后自动生成Magisk模块并自动安装
+> It supports automatic generation and installation of magisk modules after generating ODEX files
 >
-> 支持自选编译模式
-> 
-> 支持在线更新(从Github下载)
+> Support optional compilation mode
+>
+> Support for online updates (downloaded from GitHub)
 
 ****
 
-#### 运行环境
+#### Environment
 
-###### 必要
+###### Necessary
 
-* 必须具有Root权限
-* 需要使用MT管理器或者其他终端执行脚本，比如Ansole终端、Termux等
+* Root
+* A terminal simulator that can execute scripts
 
-###### 建议 
+###### Suggestions
 
-* 推荐使用基于Android10的MIUI11-12
-* 推荐使用Magisk 20.4及以上Magisk版本
-* 建议安装完整Busybox
+* Miui11-12 based on Android 10 is recommended
+* Magisk version 20.4 and above is recommended
+* It is recommended to install the full busybox
 
-#### 执行错误
+#### Execution error
 
-* 如果你在初始化时遇到“syntax error”或者"inaccessible or not found"等错误，请执行[dos2unix]命令来去除文件中的^M，因为Windows系统编辑会将换行表示为^M符号，如果你遇到脚本执行直接报错，可以先使用[cat]命令来检查脚本内是否含有“^M”符号，再决定使用[dos2unix]命令来转换。
-* dos2unix用法：dos2unix filename   (例如：dos2unix odex.sh)
-* 使用cat获取文件内容：cat filename   (例如：cat odex.sh)
+* If you encounter "syntax error" or "inaccessible or not found" errors during initialization, please execute the [dos2unix] command to remove the ^ m in the file, because the windows system editor will represent the line break as the ^ m symbol. If you encounter a direct error in the execution of the script, you can first use the [cat] command to check whether the script contains the "^ m" symbol, Then decided to use the [dos2unix] command to convert.
+* Dos2unix usage: dos2unix filename (for example: dos2unix ODEX. SH)
+* Use cat to get the file content: cat filename (for example: cat ODEX. SH)
 
-#### 如何使用
+#### How to use
 
-* MT管理器
-
-  >下载脚本后点击脚本执行，勾选Root
-  >
-  >![](http://image.coolapk.com/feed/2020/0623/15/665894_f922a721_8810_5677@1080x2160.jpeg.m.jpg)
-
-* 其他终端
-
+* Terminal
   > su
   >
-  > cd 脚本存放目录
+  > cd directory
   >
   > sh odex.sh
   >
