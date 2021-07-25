@@ -4,7 +4,7 @@ MODDIR=${0%/*}
 VERSION=$MODDIR/now_version
 pre_version=$(cat "$VERSION")
 now_version=$(getprop ro.system.build.version.incremental)
-if [ ”$pre_version” != "$now_version" ]; then
+if [ "$pre_version" != "$now_version" ]; then
     touch $MODDIR/disable
     exit 0
 else
