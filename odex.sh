@@ -1,6 +1,6 @@
 #!/bin/bash
 # MIUI ODEX项目贡献者：柚稚的孩纸(zjw2017) 雄氏老方(DavidPisces)
-nowversion=6.5
+nowversion=6.6
 logworkfile=/storage/emulated/0/MIUI_odex
 workfile=/storage/emulated/0/MIUI_odex/system
 success_count=0
@@ -68,10 +68,14 @@ else
    is_vendor_app=1
 fi
 # 下载必要文件
-if [ ! -f "/storage/emulated/0/MIUI_odex/service.sh" ]; then
+if [ ! -f "/storage/emulated/0/MIUI_odex/has_downloaded" ]; then
    echo "- 正在下载必要文件"
    cd /storage/emulated/0/MIUI_odex
    curl -s -o service.sh https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/service.sh
+   curl -s -o post-fs-data.sh https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/post-fs-data.sh
+   curl -s -o before_boot.sh https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/before_boot.sh
+   curl -s -o after_boot.sh https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/after_boot.sh
+   touch /storage/emulated/0/MIUI_odex/has_downloaded
 else
    echo "- 已含有必要文件"
 fi
@@ -113,6 +117,7 @@ if [ "$choose_odex" == 3 ]; then
    echo -e "\n- 您希望以什么模式进行Dex2oat\n"
    echo "[1] Speed (快速编译,耗时较短)"
    echo "[2] Everything (完整编译,耗时较长)"
+   echo "[3] Skip Dex2oat 不进行Dex2oat编译"
    echo -e "\n请输入选项"
    read choose_dex2oat
 else
@@ -129,6 +134,7 @@ else
    echo -e "\n- 您希望以什么模式进行Dex2oat\n"
    echo "[1] Speed (快速编译,耗时较短)"
    echo "[2] Everything (完整编译,耗时较长)"
+   echo "[3] Skip Dex2oat 不进行Dex2oat编译"
    echo -e "\n请输入选项"
    read choose_dex2oat
    if [ "$choose_odex" == 1 ]; then
@@ -504,14 +510,17 @@ if [ "$choose_odex" != 3 ]; then
       echo "minMagisk=23000" >>/data/adb/modules/miuiodex/module.prop
       echo "$modelversion" >>/data/adb/modules/miuiodex/now_version
       rm -rf /data/adb/modules/miuiodex/service.sh
-      cp -r /storage/emulated/0/MIUI_odex/service.sh /data/adb/modules/miuiodex
+      cp -r /storage/emulated/0/MIUI_odex/after_boot.sh /data/adb/modules/miuiodex
       echo -n "description=分离系统软件ODEX，MIUI$ver $modelversion，编译时间$time" >>/data/adb/modules/miuiodex/module.prop
       echo "   请输入____时间后手机仍卡米,启动修复"
       echo "   单位:  秒:s、分:m、时h,例:2m"
       read diy
-      sed -i 's/diy/'$diy'/g' /data/adb/modules/miuiodex/service.sh
+      sed -i 's/diy/'$diy'/g' /data/adb/modules/miuiodex/after_boot.sh
       # 移动相关文件
       mv $workfile/* /data/adb/modules/miuiodex/system
+      cp -r /storage/emulated/0/MIUI_odex/service.sh /data/adb/modules/miuiodex
+      cp -r /storage/emulated/0/MIUI_odex/post-fs-data.sh /data/adb/modules/miuiodex
+      cp -r /storage/emulated/0/MIUI_odex/before_boot.sh /data/adb/modules/miuiodex
       if [ $? = 0 ]; then
          echo "- 模块制作完成，请重启生效"
       else
@@ -521,75 +530,86 @@ if [ "$choose_odex" != 3 ]; then
       echo "- 未选择编译odex选项，不会生成模块"
    fi
 fi
+
 if [ "$choose_odex" == 3 ]; then
    echo "- 不进行ODEX编译"
-   mkdir -p $workfile/packagelist
-   touch $workfile/packagelist/packagelist.log
-   echo "$(pm list packages -3)" >$workfile/packagelist/packagelist.log
-   if [ "$choose_dex2oat" == 1 ]; then
-      # 用户应用
-      apptotalnumber="$(grep -o "package:" $workfile/packagelist/packagelist.log | wc -l)"
-      appnumber=0
-      echo "正在以Speed模式优化用户软件"
-      for item in $(pm list packages -3); do
-         app=${item:8}
-         echo "正在优化 -> $app"
-         cmd package compile -m speed $app
-         echo "应用优化完成"
-         let appnumber=appnumber+1
-         percentage=$((appnumber * 100 / apptotalnumber))
-         echo "已完成 $percentage%   $appnumber / $apptotalnumber"
-      done
+   if [ "$choose_dex2oat" == 3 ]; then
+      echo "- 不进行Dex2oat编译"
+      exit
    else
-      if [ "$choose_dex2oat" == 2 ]; then
+      mkdir -p $workfile/packagelist
+      touch $workfile/packagelist/packagelist.log
+      echo "$(pm list packages -3)" >$workfile/packagelist/packagelist.log
+      if [ "$choose_dex2oat" == 1 ]; then
          # 用户应用
          apptotalnumber="$(grep -o "package:" $workfile/packagelist/packagelist.log | wc -l)"
          appnumber=0
-         echo "正在以Everything模式优化用户软件"
+         echo "正在以Speed模式优化用户软件"
          for item in $(pm list packages -3); do
             app=${item:8}
             echo "正在优化 -> $app"
-            cmd package compile -m everything $app
+            cmd package compile -m speed $app
             echo "应用优化完成"
             let appnumber=appnumber+1
             percentage=$((appnumber * 100 / apptotalnumber))
             echo "已完成 $percentage%   $appnumber / $apptotalnumber"
          done
+      else
+         if [ "$choose_dex2oat" == 2 ]; then
+            # 用户应用
+            apptotalnumber="$(grep -o "package:" $workfile/packagelist/packagelist.log | wc -l)"
+            appnumber=0
+            echo "正在以Everything模式优化用户软件"
+            for item in $(pm list packages -3); do
+               app=${item:8}
+               echo "正在优化 -> $app"
+               cmd package compile -m everything $app
+               echo "应用优化完成"
+               let appnumber=appnumber+1
+               percentage=$((appnumber * 100 / apptotalnumber))
+               echo "已完成 $percentage%   $appnumber / $apptotalnumber"
+            done
+         fi
       fi
    fi
 else
-   mkdir -p $workfile/packagelist
-   touch $workfile/packagelist/packagelist.log
-   echo "$(pm list packages -3)" >$workfile/packagelist/packagelist.log
-   if [ "$choose_dex2oat" == 1 ]; then
-      # 用户应用
-      apptotalnumber="$(grep -o "package:" $workfile/packagelist/packagelist.log | wc -l)"
-      appnumber=0
-      echo "正在以Speed模式优化用户软件"
-      for item in $(pm list packages -3); do
-         app=${item:8}
-         echo "正在优化 -> $app"
-         cmd package compile -m speed $app
-         echo "应用优化完成"
-         let appnumber=appnumber+1
-         percentage=$((appnumber * 100 / apptotalnumber))
-         echo "已完成 $percentage%   $appnumber / $apptotalnumber"
-      done
+   if [ "$choose_dex2oat" == 3 ]; then
+      echo "- 不进行Dex2oat编译"
+      exit
    else
-      if [ "$choose_dex2oat" == 2 ]; then
+      mkdir -p $workfile/packagelist
+      touch $workfile/packagelist/packagelist.log
+      echo "$(pm list packages -3)" >$workfile/packagelist/packagelist.log
+      if [ "$choose_dex2oat" == 1 ]; then
          # 用户应用
          apptotalnumber="$(grep -o "package:" $workfile/packagelist/packagelist.log | wc -l)"
          appnumber=0
-         echo "正在以Everything模式优化用户软件"
+         echo "正在以Speed模式优化用户软件"
          for item in $(pm list packages -3); do
             app=${item:8}
             echo "正在优化 -> $app"
-            cmd package compile -m everything $app
+            cmd package compile -m speed $app
             echo "应用优化完成"
             let appnumber=appnumber+1
             percentage=$((appnumber * 100 / apptotalnumber))
             echo "已完成 $percentage%   $appnumber / $apptotalnumber"
          done
+      else
+         if [ "$choose_dex2oat" == 2 ]; then
+            # 用户应用
+            apptotalnumber="$(grep -o "package:" $workfile/packagelist/packagelist.log | wc -l)"
+            appnumber=0
+            echo "正在以Everything模式优化用户软件"
+            for item in $(pm list packages -3); do
+               app=${item:8}
+               echo "正在优化 -> $app"
+               cmd package compile -m everything $app
+               echo "应用优化完成"
+               let appnumber=appnumber+1
+               percentage=$((appnumber * 100 / apptotalnumber))
+               echo "已完成 $percentage%   $appnumber / $apptotalnumber"
+            done
+         fi
       fi
    fi
 fi
