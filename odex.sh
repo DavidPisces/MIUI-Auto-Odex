@@ -149,8 +149,7 @@ else
       if [ "$SDK" -le 28 ]; then
          cp -r /system/priv-app/Settings $workfile/priv-app
          cp -r /system/priv-app/MiuiSystemUI $workfile/priv-app
-         rm -rf $workfile/product
-         rm -rf $workfile/system_ext
+         rm -rf $workfile/vendor
       fi
       if [ "$SDK" == 29 ]; then
          cp -r /system/product/priv-app/Settings $workfile/product/priv-app
@@ -158,6 +157,8 @@ else
          cp -r /system/product/framework/*.jar $workfile/product/framework
          rm -rf $workfile/product/app
          rm -rf $workfile/system_ext
+         rm -rf $workfile/vendor
+         
       fi
       if [ "$SDK" == 30 ]; then
          cp -r /system/system_ext/priv-app/MiuiSystemUI $workfile/system_ext/priv-app
@@ -167,6 +168,7 @@ else
          rm -rf $workfile/product/app
          rm -rf $workfile/product/priv-app
          rm -rf $workfile/system_ext/app
+         rm -rf $workfile/vendor
       fi
       if [ "$MIUI_version" = V11 ]; then
          cp -r /system/priv-app/MiShare $workfile/priv-app
