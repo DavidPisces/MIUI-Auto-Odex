@@ -535,7 +535,6 @@ if [ "$choose_odex" == 3 ]; then
    echo "- 不进行ODEX编译"
    if [ "$choose_dex2oat" == 3 ]; then
       echo "- 不进行Dex2oat编译"
-      exit
    else
       mkdir -p $workfile/packagelist
       touch $workfile/packagelist/packagelist.log
