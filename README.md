@@ -16,7 +16,7 @@
 
 #### 能做什么
 
-> 此脚本能实现系统软件的Odex与odex2oat编译，适用于被MIUI官方删除Odex的机型
+> 此脚本能实现系统软件的Odex与用户软件dex2oat编译，适用于被MIUI官方删除Odex的机型
 >
 > 支持Complete(完整)与Simple(简单)编译模式，Speed与Everything两种dex2oat编译模式
 >
