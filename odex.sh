@@ -511,7 +511,6 @@ if [ "$choose_odex" != 3 ]; then
       echo "author=柚稚的孩纸&雄式老方" >>/data/adb/modules/miuiodex/module.prop
       echo "minMagisk=23000" >>/data/adb/modules/miuiodex/module.prop
       echo "$modelversion" >>/data/adb/modules/miuiodex/now_version
-      rm -rf /data/adb/modules/miuiodex/service.sh
       cp -r /storage/emulated/0/MIUI_odex/after_boot.sh /data/adb/modules/miuiodex
       echo -n "description=分离系统软件ODEX，MIUI$ver $modelversion，编译时间$time" >>/data/adb/modules/miuiodex/module.prop
       echo "   请输入____时间后手机仍卡米,启动修复"
