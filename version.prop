@@ -1,2 +1,2 @@
 version=6.31
-description="版本描述"
+description="支持更新时显示描述,重新合并更新部分到脚本"
