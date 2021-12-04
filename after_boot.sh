@@ -1,7 +1,6 @@
 #!/system/bin/sh
 MODDIR=${0%/*}
 boot_log=$MODDIR/boot.log
-#这里下面最后“1.5”就是正常救砖时延迟的时间
 sleep diy
 if [[ $(getprop init.svc.bootanim) = "stopped" ]]; then
     rm -f "$boot_log"
