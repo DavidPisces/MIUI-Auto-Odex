@@ -416,7 +416,7 @@ if [ $choose_odex != 3 ]; then
    if [ $is_vendor_app == 0 ]; then
       echo "- 开始处理/system/vendor/app"
       system_vendor_app=$(ls -l $workfile/vendor/app | awk '/^d/ {print $NF}')
-      for j in $system_system_ext_app; do
+      for j in $system_vendor_app; do
          cd $workfile/vendor/app/$j
          rm -rf $(find . ! -name '*.apk')
          unzip -q -o *.apk "classes.dex"
