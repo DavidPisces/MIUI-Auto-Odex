@@ -177,6 +177,9 @@ else
             cp -r /system/system_ext/priv-app/* $workfile/system_ext/priv-app
             cp -r /system/system_ext/framework/* $workfile/system_ext/framework
          fi
+         if [ $is_vendor_app == 0 ]; then
+            cp -r /system/vendor/app/* $workfile/vendor/app
+         fi
          echo "- 文件复制完成，开始执行"
       fi
    fi
