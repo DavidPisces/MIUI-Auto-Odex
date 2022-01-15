@@ -50,10 +50,10 @@ fi
 if [ ! -f "/storage/emulated/0/MIUI_odex/has_downloaded" ]; then
    echo "- 正在下载必要文件"
    cd /storage/emulated/0/MIUI_odex
-   curl -s -o service.sh https://gitee.com/David-GithubClone/MIUI-Auto-Odex/raw/master/service.sh
-   curl -s -o post-fs-data.sh https://gitee.com/David-GithubClone/MIUI-Auto-Odex/raw/master/post-fs-data.sh
-   curl -s -o before_boot.sh https://gitee.com/David-GithubClone/MIUI-Auto-Odex/raw/master/before_boot.sh
-   curl -s -o after_boot.sh https://gitee.com/David-GithubClone/MIUI-Auto-Odex/raw/master/after_boot.sh
+   curl -s -o service.sh https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/service.sh
+   curl -s -o post-fs-data.sh https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/post-fs-data.sh
+   curl -s -o before_boot.sh https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/before_boot.sh
+   curl -s -o after_boot.sh https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/after_boot.sh
    touch /storage/emulated/0/MIUI_odex/has_downloaded
 else
    echo "- 已含有必要文件"
