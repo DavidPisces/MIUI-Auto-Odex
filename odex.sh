@@ -1,6 +1,5 @@
 #!/bin/bash
 # MIUI ODEX项目贡献者：柚稚的孩纸(zjw2017) & 雄氏老方(DavidPisces)
-source version.prop
 logfile=/storage/emulated/0/MIUI_odex/log
 workfile=/storage/emulated/0/MIUI_odex/system
 success_count=0
@@ -47,17 +46,14 @@ if [ -d "/system/vendor/app" ]; then
 else
    is_vendor_app=1
 fi
-if [ ! -f "/storage/emulated/0/MIUI_odex/has_downloaded" ]; then
-   echo "- 正在下载必要文件"
+if [ ! -f "/storage/emulated/0/MIUI_odex/version.prop" ]; then
+   echo "- 正在下载更新日志"
    cd /storage/emulated/0/MIUI_odex
-   curl -s -o service.sh https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/service.sh
-   curl -s -o post-fs-data.sh https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/post-fs-data.sh
-   curl -s -o before_boot.sh https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/before_boot.sh
-   curl -s -o after_boot.sh https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/after_boot.sh
-   touch /storage/emulated/0/MIUI_odex/has_downloaded
+   curl -s -o version.prop https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/version.prop
 else
    echo "- 已含有必要文件"
 fi
+source version.prop
 SDK=$(getprop ro.system.build.version.sdk)
 MIUI_version=$(getprop ro.miui.ui.version.name)
 touch /storage/emulated/0/MIUI_odex/log/MIUI_odex_$now_time.log
@@ -452,24 +448,13 @@ if [ $choose_odex != 3 ]; then
       echo "- 正在制作模块，请坐和放宽"
       mkdir -p /data/adb/modules/miuiodex/system
       touch /data/adb/modules/miuiodex/module.prop
-      touch /data/adb/modules/miuiodex/now_version
       echo "id=miuiodex" >>/data/adb/modules/miuiodex/module.prop
       echo "name=MIUI ODEX" >>/data/adb/modules/miuiodex/module.prop
       echo "version=$version" >>/data/adb/modules/miuiodex/module.prop
       echo "versionCode=1" >>/data/adb/modules/miuiodex/module.prop
       echo "author=柚稚的孩纸&雄式老方" >>/data/adb/modules/miuiodex/module.prop
       echo "minMagisk=23000" >>/data/adb/modules/miuiodex/module.prop
-      echo "$modelversion" >>/data/adb/modules/miuiodex/now_version
-      cp -r /storage/emulated/0/MIUI_odex/after_boot.sh /data/adb/modules/miuiodex
-      echo -n "description=分离系统软件ODEX，MIUI$ver $modelversion，编译时间$time" >>/data/adb/modules/miuiodex/module.prop
-      echo "   请输入____时间后手机仍卡米,启动修复"
-      echo "   单位:  秒:s、分:m、时h,例:2m"
-      read diy
-      sed -i 's/diy/'$diy'/g' /data/adb/modules/miuiodex/after_boot.sh
       mv $workfile/* /data/adb/modules/miuiodex/system
-      cp -r /storage/emulated/0/MIUI_odex/service.sh /data/adb/modules/miuiodex
-      cp -r /storage/emulated/0/MIUI_odex/post-fs-data.sh /data/adb/modules/miuiodex
-      cp -r /storage/emulated/0/MIUI_odex/before_boot.sh /data/adb/modules/miuiodex
       if [ $? = 0 ]; then
          echo "- 模块制作完成，请重启生效"
       else
