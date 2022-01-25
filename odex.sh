@@ -203,12 +203,12 @@ else
          if [ $is_product == 0 ]; then
             cp -r /system/product/app/* $workfile/product/app
             cp -r /system/product/priv-app/* $workfile/product/priv-app
-            cp -r /system/product/framework/* $workfile/product/framework
+            cp -r /system/product/framework/*.jar $workfile/product/framework
          fi
          if [ $is_system_ext == 0 ]; then
             cp -r /system/system_ext/app/* $workfile/system_ext/app
             cp -r /system/system_ext/priv-app/* $workfile/system_ext/priv-app
-            cp -r /system/system_ext/framework/* $workfile/system_ext/framework
+            cp -r /system/system_ext/framework/*.jar $workfile/system_ext/framework
          fi
          if [ $is_vendor == 0 ]; then
             cp -r /system/vendor/app/* $workfile/vendor/app
