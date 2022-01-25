@@ -1,17 +1,15 @@
 #!/bin/bash
 # MIUI ODEX项目贡献者：柚稚的孩纸(zjw2017) & 雄氏老方(DavidPisces)
-logfile=/storage/emulated/0/MIUI_odex/log
-workfile=/storage/emulated/0/MIUI_odex/system
-success_count=0
 failed_count=0
+logfile=/storage/emulated/0/MIUI_odex/log
+MIUI_version_code=$(getprop ro.miui.ui.version.code)
+MIUI_version_name=$(getprop ro.miui.ui.version.name)
+modelversion="$(getprop ro.system.build.version.incremental)"
 now_time=$(date '+%Y%m%d_%H:%M:%S')
-echo "- 正在准备环境"
-rm -rf $workfile
-echo "- 正在创建目录"
-mkdir -p /storage/emulated/0/MIUI_odex/log
-mkdir -p $workfile/app
-mkdir -p $workfile/priv-app
-mkdir -p $workfile/framework
+SDK=$(getprop ro.system.build.version.sdk)
+success_count=0
+time=$(date "+%Y年%m月%d日%H:%M:%S")
+workfile=/storage/emulated/0/MIUI_odex/system
 if [ -d "/system/product" ]; then
    is_product=0
 else
@@ -42,20 +40,47 @@ if [ -d "/system/system_ext/framework" ]; then
 fi
 if [ -d "/system/vendor/app" ]; then
    mkdir -p $workfile/vendor/app
-   is_vendor_app=0
+   is_vendor=0
 else
-   is_vendor_app=1
+   is_vendor=1
+fi
+if [ $SDK == 28 ]; then
+   android_version=9
+fi
+if [ $SDK == 29 ]; then
+   android_version=10
+fi
+if [ $SDK == 30 ]; then
+   android_version=11
+fi
+if [ $SDK == 31 ]; then
+   android_version=12
+fi
+if [[ $MIUI_version_code == 13 ]] && [[ $MIUI_version_name == V130 ]]; then
+   MIUI_version=13
+fi
+if [[ $MIUI_version_code == 12 ]] && [[ $MIUI_version_name == V125 ]]; then
+   MIUI_version=12.5 Enhanced
+fi
+if [[ $MIUI_version_code == 11 ]] && [[ $MIUI_version_name == V125 ]]; then
+   MIUI_version=12.5
+fi
+if [[ $MIUI_version_code == 10 ]] && [[ $MIUI_version_name == V12 ]]; then
+   MIUI_version=12
+fi
+if [[ $MIUI_version_code == 9 ]] && [[ $MIUI_version_name == V11 ]]; then
+   MIUI_version=11
 fi
 if [ ! -f "/storage/emulated/0/MIUI_odex/version.prop" ]; then
-   echo "- 正在下载更新日志"
    cd /storage/emulated/0/MIUI_odex
    curl -s -o version.prop https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/version.prop
-else
-   echo "- 已含有必要文件"
 fi
 source version.prop
-SDK=$(getprop ro.system.build.version.sdk)
-MIUI_version=$(getprop ro.miui.ui.version.name)
+rm -rf $workfile
+mkdir -p /storage/emulated/0/MIUI_odex/log
+mkdir -p $workfile/app
+mkdir -p $workfile/priv-app
+mkdir -p $workfile/framework
 touch /storage/emulated/0/MIUI_odex/log/MIUI_odex_$now_time.log
 clear
 echo "*************************************************"
@@ -126,7 +151,7 @@ else
          rm -rf $workfile/product/app
          rm -rf $workfile/system_ext
       fi
-      if [ $SDK == 30 ]; then
+      if [[ $SDK == 30 ]] || [[ $SDK == 31 ]]; then
          cp -r /system/system_ext/priv-app/MiuiSystemUI $workfile/system_ext/priv-app
          cp -r /system/system_ext/priv-app/Settings $workfile/system_ext/priv-app
          cp -r /system/system_ext/framework/*.jar $workfile/system_ext/framework
@@ -135,26 +160,38 @@ else
          rm -rf $workfile/product/priv-app
          rm -rf $workfile/system_ext/app
       fi
-      if [ $MIUI_version = V11 ]; then
-         cp -r /system/priv-app/MiShare $workfile/priv-app
-         cp -r /system/priv-app/SecurityCenter $workfile/priv-app
+      if [ $MIUI_version_name == V11 ]; then
+         if [ -d "/system/priv-app/MiShare" ]; then
+            cp -r /system/priv-app/MiShare $workfile/priv-app
+         fi
+         if [ -d "/system/priv-app/SecurityCenter" ]; then
+            cp -r /system/priv-app/SecurityCenter $workfile/priv-app
+         fi
       fi
-      if [ $MIUI_version = V12 ]; then
+      if [ $MIUI_version_name == V12 ]; then
          if [ -d "/system/priv-app/MiuiFreeformService" ]; then
             cp -r /system/priv-app/MiuiFreeformService $workfile/priv-app
          fi
-         cp -r /system/priv-app/MiShare $workfile/priv-app
-         cp -r /system/priv-app/SecurityCenter $workfile/priv-app
+         if [ -d "/system/priv-app/MiShare" ]; then
+            cp -r /system/priv-app/MiShare $workfile/priv-app
+         fi
+         if [ -d "/system/priv-app/SecurityCenter" ]; then
+            cp -r /system/priv-app/SecurityCenter $workfile/priv-app
+         fi
       fi
-      if [ $MIUI_version = V125 ]; then
+      if [[ $MIUI_version_name == V125 ]] || [[ $MIUI_version_name == V130 ]]; then
          if [ -d "/system/priv-app/Mirror" ]; then
             cp -r /system/priv-app/Mirror $workfile/priv-app
          fi
          if [ -d "/system/priv-app/MiuiFreeformService" ]; then
             cp -r /system/priv-app/MiuiFreeformService $workfile/priv-app
          fi
-         cp -r /system/priv-app/MiShare $workfile/priv-app
-         cp -r /system/priv-app/MIUISecurityCenter $workfile/priv-app
+         if [ -d "/system/priv-app/MiShare" ]; then
+            cp -r /system/priv-app/MiShare $workfile/priv-app
+         fi
+         if [ -d "/system/priv-app/SecurityCenter" ]; then
+            cp -r /system/priv-app/SecurityCenter $workfile/priv-app
+         fi
       fi
       echo "- 文件复制完成，开始执行"
    else
@@ -173,7 +210,7 @@ else
             cp -r /system/system_ext/priv-app/* $workfile/system_ext/priv-app
             cp -r /system/system_ext/framework/* $workfile/system_ext/framework
          fi
-         if [ $is_vendor_app == 0 ]; then
+         if [ $is_vendor == 0 ]; then
             cp -r /system/vendor/app/* $workfile/vendor/app
          fi
          echo "- 文件复制完成，开始执行"
@@ -409,7 +446,7 @@ if [ $choose_odex != 3 ]; then
       done
    fi
    # vendor部分
-   if [ $is_vendor_app == 0 ]; then
+   if [ $is_vendor == 0 ]; then
       echo "- 开始处理/system/vendor/app"
       system_vendor_app=$(ls -l $workfile/vendor/app | awk '/^d/ {print $NF}')
       for j in $system_vendor_app; do
@@ -442,9 +479,6 @@ if [ $choose_odex != 3 ]; then
    fi
    echo "- 共$success_count次成功，$failed_count次失败，请检查$logfile中的日志"
    if [ $odex_module == true ]; then
-      ver="$(getprop ro.miui.ui.version.name)"
-      modelversion="$(getprop ro.system.build.version.incremental)"
-      time=$(date "+%Y年%m月%d日 %H:%M:%S")
       echo "- 正在制作模块，请坐和放宽"
       mkdir -p /data/adb/modules/miuiodex/system
       touch /data/adb/modules/miuiodex/module.prop
@@ -453,8 +487,8 @@ if [ $choose_odex != 3 ]; then
       echo "version=$version" >>/data/adb/modules/miuiodex/module.prop
       echo "versionCode=1" >>/data/adb/modules/miuiodex/module.prop
       echo "author=柚稚的孩纸&雄式老方" >>/data/adb/modules/miuiodex/module.prop
-      echo -n "description=分离系统软件ODEX，MIUI$ver $modelversion，编译时间$time" >>/data/adb/modules/miuiodex/module.prop
-      echo "minMagisk=23000" >>/data/adb/modules/miuiodex/module.prop
+      echo "description=分离系统软件ODEX，MIUI$MIUI_version $modelversion，Android $android_version，编译时间$time" >>/data/adb/modules/miuiodex/module.prop
+      echo -n "minMagisk=23000" >>/data/adb/modules/miuiodex/module.prop
       mv $workfile/* /data/adb/modules/miuiodex/system
       if [ $? = 0 ]; then
          echo "- 模块制作完成，请重启生效"
