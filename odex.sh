@@ -75,7 +75,7 @@ if [ ! -f "/storage/emulated/0/MIUI_odex/version.prop" ]; then
    cd /storage/emulated/0/MIUI_odex
    curl -s -o version.prop https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/version.prop
 fi
-source version.prop
+source /storage/emulated/0/MIUI_odex/version.prop
 rm -rf $workfile
 mkdir -p /storage/emulated/0/MIUI_odex/log
 mkdir -p $workfile/app
