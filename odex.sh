@@ -487,7 +487,7 @@ if [ $choose_odex != 3 ]; then
       echo "version=$version" >>/data/adb/modules/miuiodex/module.prop
       echo "versionCode=1" >>/data/adb/modules/miuiodex/module.prop
       echo "author=柚稚的孩纸&雄式老方" >>/data/adb/modules/miuiodex/module.prop
-      echo "description=分离系统软件ODEX，MIUI$MIUI_version $modelversion，Android$android_version，编译时间$time" >>/data/adb/modules/miuiodex/module.prop
+      echo "description=分离系统软件ODEX，MIUI$MIUI_version $modelversion Android$android_version，编译时间$time" >>/data/adb/modules/miuiodex/module.prop
       echo -n "minMagisk=23000" >>/data/adb/modules/miuiodex/module.prop
       mv $workfile/* /data/adb/modules/miuiodex/system
       if [ $? = 0 ]; then
