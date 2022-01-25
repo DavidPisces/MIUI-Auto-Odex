@@ -1,6 +1,6 @@
 # MIUI ODEX
 
-##### 一个适用于中国版MIUI自动化Odex shell脚本
+##### 一个适用于中国版MIUI自动化odex shell脚本
 
 ***
 
@@ -16,15 +16,13 @@
 
 #### 能做什么
 
-> 此脚本能实现系统软件的Odex与用户软件dex2oat编译，适用于被MIUI官方删除Odex的机型
+> 此脚本能实现系统软件的odex与用户软件dex2oat编译，适用于被MIUI官方删除odex的机型
 >
 > 支持Complete(完整)与Simple(简单)编译模式，Speed与Everything两种dex2oat编译模式
 >
 > 支持生成odex文件后自动生成Magisk模块并自动安装
 >
 > 支持自选编译模式
-> 
-> 支持在线更新(从Github下载)
 
 ****
 
@@ -37,7 +35,7 @@
 
 ###### 建议 
 
-* 推荐使用基于Android10的MIUI11-12
+* 动态适配各个Android大版本(Android P以下不保证生效)和MIUI11-MIUI12.5
 * 推荐使用Magisk 20.4及以上Magisk版本
 * 建议安装完整Busybox
 
