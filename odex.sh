@@ -1,5 +1,6 @@
 #!/bin/bash
 # MIUI ODEX项目贡献者：柚稚的孩纸(zjw2017) & 雄氏老方(DavidPisces)
+rm -rf $workfile
 failed_count=0
 logfile=/storage/emulated/0/MIUI_odex/log
 MIUI_version_code=$(getprop ro.miui.ui.version.code)
@@ -76,7 +77,6 @@ if [ ! -f "/storage/emulated/0/MIUI_odex/version.prop" ]; then
    curl -s -o version.prop https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/version.prop
 fi
 source /storage/emulated/0/MIUI_odex/version.prop
-rm -rf $workfile
 mkdir -p /storage/emulated/0/MIUI_odex/log
 mkdir -p $workfile/app
 mkdir -p $workfile/priv-app
