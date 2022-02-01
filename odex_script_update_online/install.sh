@@ -1,7 +1,7 @@
 SKIPMOUNT=false
 PROPFILE=false
 POSTFSDATA=true
-LATESTARTSERVICE=false
+LATESTARTSERVICE=true
 REPLACE="
 "
 on_install(){
@@ -14,9 +14,6 @@ ui_print "- MIUI ODEX 脚本更新模块"
 ui_print "- Made By 柚稚的孩纸&雄氏老方"
 ui_print "**************************************************************"
 }
-touch $TMPDIR/now_version
-modelversion="$(getprop ro.system.build.version.incremental)"
-echo "$modelversion" >>$TMPDIR/now_version
 rm -rf /storage/emulated/0/MIUI_odex/odex.sh
 rm -rf /storage/emulated/0/MIUI_odex/odex.json
 mkdir -p /storage/emulated/0/MIUI_odex
