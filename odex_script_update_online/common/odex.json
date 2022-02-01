@@ -1,6 +1,6 @@
 {
-    "version": 7.1,
-    "versionCode": 71,
-    "zipUrl": "https://pd.zwc365.com/https://raw.githubusercontent.com/zjw2017/odex-For-MIUI-WeeklyReleases/master/odex_script_update_online.zip",
+    "version": 8.0,
+    "versionCode": 80,
+    "zipUrl": "https://pd.zwc365.com/https://github.com/zjw2017/odex-For-MIUI-WeeklyReleases/raw/master/odex_script_update_online.zip",
     "changelog": "https://pd.zwc365.com/https://raw.githubusercontent.com/zjw2017/odex-For-MIUI-WeeklyReleases/master/odex_script_update_online/common/odex.md"
 }
