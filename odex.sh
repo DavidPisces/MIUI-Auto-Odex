@@ -72,13 +72,16 @@ fi
 if [[ $MIUI_version_code == 9 ]] && [[ $MIUI_version_name == V11 ]]; then
    MIUI_version=11
 fi
-if [ ! -f "/storage/emulated/0/MIUI_odex/version.prop" ]; then
+if [ ! -f "/storage/emulated/0/MIUI_odex/odex.json" ]; then
    cd /storage/emulated/0/MIUI_odex
-   curl -s -o version.prop https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/update_online/version.prop
+   curl -s -o odex.json https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/update_online/odex.json
    if [ $? != 0 ]; then
       echo "- 请确保网络畅通"
       exit
    fi
+else
+   version=$(cat /storage/emulated/0/MIUI_odex/odex.json | sed 's/,/\n/g' | grep "version" | sed 's/:/\n/g' | sed '1d;3d;4d' | sed 's/^[ ]*//g')
+   versionCode=$(cat /storage/emulated/0/MIUI_odex/odex.json | sed 's/,/\n/g' | grep "versionCode" | sed 's/:/\n/g' | sed '1d' | sed 's/^[ ]*//g')
 fi
 if [ ! -f "/storage/emulated/0/MIUI_odex/post-fs-data.sh" ]; then
    cd /storage/emulated/0/MIUI_odex
@@ -98,9 +101,8 @@ clear
 echo "*************************************************"
 echo " "
 echo " "
-echo "                   MIUI ODEX"
-echo "                   $version"
-echo "                   本次更新日志：$description"
+echo "                   MIUI ODEX
+echo "                   $version
 echo " "
 echo " "
 echo "*************************************************"
@@ -117,9 +119,8 @@ if [ $choose_odex == 3 ]; then
    echo "*************************************************"
    echo " "
    echo " "
-   echo "                   MIUI ODEX"
-   echo "                   $version"
-   echo "                   本次更新日志：$description"
+   echo "                   MIUI ODEX
+   echo "                   $version
    echo " "
    echo "*************************************************"
    echo -e "\n- 您希望以什么模式进行Dex2oat\n"
@@ -133,9 +134,8 @@ else
    echo "*************************************************"
    echo " "
    echo " "
-   echo "                   MIUI ODEX"
-   echo "                   $version"
-   echo "                   本次更新日志：$description"
+   echo "                   MIUI ODEX
+   echo "                   $version
    echo " "
    echo "*************************************************"
    echo -e "\n- 您希望以什么模式进行Dex2oat\n"
@@ -495,7 +495,7 @@ if [ $choose_odex != 3 ]; then
       mkdir -p /data/adb/modules/miuiodex/system
       touch /data/adb/modules/miuiodex/module.prop
       touch /data/adb/modules/miuiodex/now_version
-      touch /data/adb/modules/miuiodex/post-fs-data.sh
+      cp -f /storage/emulated/0/MIUI_odex/post-fs-data.sh /data/adb/modules/miuiodex
       echo "id=miuiodex" >>/data/adb/modules/miuiodex/module.prop
       echo "name=MIUI ODEX" >>/data/adb/modules/miuiodex/module.prop
       echo "version=$version" >>/data/adb/modules/miuiodex/module.prop
