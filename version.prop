@@ -1,2 +1,3 @@
-version=7.0
-description="支持MIUI13 Android12，精简非必要参数，重构执行顺序，修复逻辑错误"
+version=7.1
+versionCode=71
+description="新增 更新系统后自动删除上一次的odex结果"

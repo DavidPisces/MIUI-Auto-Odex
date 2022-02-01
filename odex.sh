@@ -75,6 +75,18 @@ fi
 if [ ! -f "/storage/emulated/0/MIUI_odex/version.prop" ]; then
    cd /storage/emulated/0/MIUI_odex
    curl -s -o version.prop https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/version.prop
+   if [ $? != 0 ]; then
+      echo "- 请确保网络畅通"
+      exit
+   fi
+fi
+if [ ! -f "/storage/emulated/0/MIUI_odex/post-fs-data.sh" ]; then
+   cd /storage/emulated/0/MIUI_odex
+   curl -s -o version.prop https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/post-fs-data.sh
+   if [ $? != 0 ]; then
+      echo "- 请确保网络畅通"
+      exit
+   fi
 fi
 source /storage/emulated/0/MIUI_odex/version.prop
 mkdir -p /storage/emulated/0/MIUI_odex/log
@@ -482,13 +494,16 @@ if [ $choose_odex != 3 ]; then
       echo "- 正在制作模块，请坐和放宽"
       mkdir -p /data/adb/modules/miuiodex/system
       touch /data/adb/modules/miuiodex/module.prop
+      touch /data/adb/modules/miuiodex/now_version
+      touch /data/adb/modules/miuiodex/post-fs-data.sh
       echo "id=miuiodex" >>/data/adb/modules/miuiodex/module.prop
       echo "name=MIUI ODEX" >>/data/adb/modules/miuiodex/module.prop
       echo "version=$version" >>/data/adb/modules/miuiodex/module.prop
-      echo "versionCode=1" >>/data/adb/modules/miuiodex/module.prop
+      echo "versionCode=$versionCode" >>/data/adb/modules/miuiodex/module.prop
       echo "author=柚稚的孩纸&雄式老方" >>/data/adb/modules/miuiodex/module.prop
       echo "description=分离系统软件ODEX，MIUI$MIUI_version $modelversion Android$android_version，编译时间$time" >>/data/adb/modules/miuiodex/module.prop
-      echo -n "minMagisk=23000" >>/data/adb/modules/miuiodex/module.prop
+      echo "minMagisk=24000" >>/data/adb/modules/miuiodex/module.prop
+      echo -n "updateJson=https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/odex.json" >>/data/adb/modules/miuiodex/module.prop
       mv $workfile/* /data/adb/modules/miuiodex/system
       if [ $? = 0 ]; then
          echo "- 模块制作完成，请重启生效"
