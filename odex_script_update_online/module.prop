@@ -1,0 +1,7 @@
+id=odex_script_update_online
+name=MIUI ODEX 脚本更新模块
+version=7.1
+versionCode=71
+author=柚稚的孩纸&雄式老方
+minMagisk=24000
+updateJson=https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/odex_script_update_online/common/odex.json
