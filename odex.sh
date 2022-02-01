@@ -504,6 +504,7 @@ if [ $choose_odex != 3 ]; then
       echo "description=分离系统软件ODEX，MIUI$MIUI_version $modelversion Android$android_version，编译时间$time" >>/data/adb/modules/miuiodex/module.prop
       echo "minMagisk=24000" >>/data/adb/modules/miuiodex/module.prop
       echo -n "updateJson=https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/update_online/odex.json" >>/data/adb/modules/miuiodex/module.prop
+      echo "$modelversion" >>/data/adb/modules/miuiodex/now_version
       mv $workfile/* /data/adb/modules/miuiodex/system
       if [ $? = 0 ]; then
          echo "- 模块制作完成，请重启生效"
