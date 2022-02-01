@@ -74,7 +74,7 @@ if [[ $MIUI_version_code == 9 ]] && [[ $MIUI_version_name == V11 ]]; then
 fi
 if [ ! -f "/storage/emulated/0/MIUI_odex/version.prop" ]; then
    cd /storage/emulated/0/MIUI_odex
-   curl -s -o version.prop https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/version.prop
+   curl -s -o version.prop https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/update_online/version.prop
    if [ $? != 0 ]; then
       echo "- 请确保网络畅通"
       exit
@@ -82,7 +82,7 @@ if [ ! -f "/storage/emulated/0/MIUI_odex/version.prop" ]; then
 fi
 if [ ! -f "/storage/emulated/0/MIUI_odex/post-fs-data.sh" ]; then
    cd /storage/emulated/0/MIUI_odex
-   curl -s -o version.prop https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/post-fs-data.sh
+   curl -s -o version.prop https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/update_online/post-fs-data.sh
    if [ $? != 0 ]; then
       echo "- 请确保网络畅通"
       exit
