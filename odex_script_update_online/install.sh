@@ -19,6 +19,7 @@ modelversion="$(getprop ro.system.build.version.incremental)"
 echo "$modelversion" >>$TMPDIR/now_version
 rm -rf /storage/emulated/0/MIUI_odex/odex.sh
 rm -rf /storage/emulated/0/MIUI_odex/odex.json
+mkdir -p /storage/emulated/0/MIUI_odex
 cp -f $TMPDIR/odex.sh /storage/emulated/0/MIUI_odex
 cp -f $TMPDIR/odex.json /storage/emulated/0/MIUI_odex
 echo -n "description=$(cat $TMPDIR/odex.md | sed '1d')">>$TMPDIR/module.prop
