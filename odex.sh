@@ -101,8 +101,8 @@ clear
 echo "*************************************************"
 echo " "
 echo " "
-echo "                   MIUI ODEX
-echo "                   $version
+echo "                   MIUI ODEX"
+echo "                   $version"
 echo " "
 echo " "
 echo "*************************************************"
@@ -119,8 +119,8 @@ if [ $choose_odex == 3 ]; then
    echo "*************************************************"
    echo " "
    echo " "
-   echo "                   MIUI ODEX
-   echo "                   $version
+   echo "                   MIUI ODEX"
+   echo "                   $version"
    echo " "
    echo "*************************************************"
    echo -e "\n- 您希望以什么模式进行Dex2oat\n"
@@ -134,8 +134,8 @@ else
    echo "*************************************************"
    echo " "
    echo " "
-   echo "                   MIUI ODEX
-   echo "                   $version
+   echo "                   MIUI ODEX"
+   echo "                   $version"
    echo " "
    echo "*************************************************"
    echo -e "\n- 您希望以什么模式进行Dex2oat\n"
