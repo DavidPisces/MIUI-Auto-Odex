@@ -39,8 +39,6 @@ jobs:
         run: |
           echo "GITHUB_version=$(cat $GITHUB_WORKSPACE/odex.json | sed 's/,/\n/g' | grep "version" | sed 's/:/\n/g' | sed '1d;3d;4d' | sed 's/^[ ]*//g')" >> $GITHUB_ENV
           echo "GITHUB_description=$(cat $GITHUB_WORKSPACE/odex.md | sed '1d')" >> $GITHUB_ENV
-          echo $GITHUB_description
-          echo $GITHUB_version
 
       - name: 4. 创建GitHub Release
         id: create_release
@@ -48,9 +46,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: MIUI ODEX $GITHUB_version
-          release_name: $GITHUB_version
-          body: $GITHUB_description
+          tag_name: MIUI ODEX ${{ env.GITHUB_version }}
+          release_name: ${{ env.GITHUB_version }}
+          body: ${{ env.GITHUB_description }}
           draft: false
           prerelease: false
       - name: 5. 上传GitHub Release
@@ -60,6 +58,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: $GITHUB_WORKSPACE/odex_script_update_online.zip
+          asset_path: ./odex_script_update_online.zip
           asset_name: odex_script_update_online.zip
           asset_content_type: application/zip
