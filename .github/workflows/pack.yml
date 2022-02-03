@@ -46,8 +46,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: MIUI ODEX ${{ env.GITHUB_version }}
-          release_name: ${{ env.GITHUB_version }}
+          tag_name: ${{ env.GITHUB_version }}
+          release_name: MIUI ODEX ${{ env.GITHUB_version }}
           body: ${{ env.GITHUB_description }}
           draft: false
           prerelease: false
