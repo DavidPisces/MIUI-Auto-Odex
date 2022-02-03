@@ -1,32 +1,17 @@
-# This is a basic workflow to help you get started with Actions
-# https://www.antmoe.com/posts/18c087cf/
 name: PackZip
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [master]
-  pull_request:
-    branches: [master]
-
-  # Allows you to run this workflow manually from the Actions tab
+    paths:
+      - "odex.json"
   workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - name: 1. 安装依赖
         run: |
           sudo apt install -y zip
-
       - name: 2. 准备文件
         run: |
           cp -f $GITHUB_WORKSPACE/odex.sh $GITHUB_WORKSPACE/odex_script_update_online/common
@@ -34,12 +19,10 @@ jobs:
           cd $GITHUB_WORKSPACE/odex_script_update_online
           zip -q -r odex_script_update_online.zip *
           mv $GITHUB_WORKSPACE/odex_script_update_online/odex_script_update_online.zip $GITHUB_WORKSPACE/odex_script_update_online.zip
-
       - name: 3. 读取当前版本和更新日志
         run: |
           echo "GITHUB_version=$(cat $GITHUB_WORKSPACE/odex.json | sed 's/,/\n/g' | grep "version" | sed 's/:/\n/g' | sed '1d;3d;4d' | sed 's/^[ ]*//g')" >> $GITHUB_ENV
           echo "GITHUB_description=$(cat $GITHUB_WORKSPACE/odex.md | sed '1d')" >> $GITHUB_ENV
-
       - name: 4. 创建GitHub Release
         id: create_release
         uses: actions/create-release@latest
@@ -52,7 +35,7 @@ jobs:
           draft: false
           prerelease: false
       - name: 5. 上传GitHub Release
-        id: upload-release-asset 
+        id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
