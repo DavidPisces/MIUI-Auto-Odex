@@ -9,10 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: 1. 安装依赖
-        run: |
-          sudo apt install -y zip
-      - name: 2. 准备文件
+      - name: 1. 准备文件
         run: |
           cp -f $GITHUB_WORKSPACE/odex.sh $GITHUB_WORKSPACE/odex_script_update_online/common
           cp -f $GITHUB_WORKSPACE/odex.json $GITHUB_WORKSPACE/odex_script_update_online/common
@@ -20,11 +17,11 @@ jobs:
           cd $GITHUB_WORKSPACE/odex_script_update_online
           zip -q -r odex_script_update_online.zip *
           mv $GITHUB_WORKSPACE/odex_script_update_online/odex_script_update_online.zip $GITHUB_WORKSPACE/odex_script_update_online.zip
-      - name: 3. 读取当前版本和更新日志
+      - name: 2. 读取当前版本和更新日志
         run: |
           echo "GITHUB_version=$(cat $GITHUB_WORKSPACE/odex.json | sed 's/,/\n/g' | grep "version" | sed 's/:/\n/g' | sed '1d;3d;4d' | sed 's/^[ ]*//g')" >> $GITHUB_ENV
           echo "GITHUB_description=$(cat $GITHUB_WORKSPACE/odex.md | sed '1d')" >> $GITHUB_ENV
-      - name: 4. 创建GitHub Release
+      - name: 3. 创建GitHub Release
         id: create_release
         uses: actions/create-release@latest
         env:
@@ -35,7 +32,7 @@ jobs:
           body: ${{ env.GITHUB_description }}
           draft: false
           prerelease: false
-      - name: 5. 上传GitHub Release
+      - name: 4. 上传GitHub Release
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
