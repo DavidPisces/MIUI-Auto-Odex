@@ -40,13 +40,13 @@ jobs:
         id: version
         uses: ashley-taylor/read-json-property-action@v1.0
         with:
-          path: $GITHUB_WORKSPACE/odex.json
+          path: ./odex.json
           property: version
       - name: 4. 读取更新日志
         id: description
         uses: juliangruber/read-file-action@v1
         with:
-          path: $GITHUB_WORKSPACE/odex.md
+          path: ./odex.md
 
       - name: 5. 创建GitHub Release
         id: create_release
@@ -66,6 +66,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: $GITHUB_WORKSPACE/odex_script_update_online.zip
+          asset_path: ./odex_script_update_online.zip
           asset_name: odex_script_update_online.zip
           asset_content_type: application/zip
