@@ -29,6 +29,7 @@ jobs:
 
       - name: 2. 准备文件
         run: |
+          ls -l
           cp -f $GITHUB_WORKSPACE/odex.sh $GITHUB_WORKSPACE/odex_script_update_online/common
           cp -f $GITHUB_WORKSPACE/odex.json $GITHUB_WORKSPACE/odex_script_update_online/common
           cd $GITHUB_WORKSPACE/odex_script_update_online
