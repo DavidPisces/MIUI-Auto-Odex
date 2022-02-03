@@ -38,10 +38,9 @@ jobs:
 
       - name: 3. 读取当前版本号
         id: version
-        uses: ashley-taylor/read-json-property-action@v1.0
-        with:
-          path: ./odex.json
-          property: version
+        run : |
+           ls -l
+
       - name: 4. 读取更新日志
         id: description
         uses: juliangruber/read-file-action@v1
