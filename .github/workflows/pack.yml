@@ -38,7 +38,7 @@ jobs:
       - name: 3. 读取当前版本和更新日志
         run: |
           echo "GITHUB_version=$(cat $GITHUB_WORKSPACE/odex.json | sed 's/,/\n/g' | grep "version" | sed 's/:/\n/g' | sed '1d;3d;4d' | sed 's/^[ ]*//g')" >> $GITHUB_ENV
-          echo "GITHUB_description=$(cat $TMPDIR/odex.md | sed '1d')" >> $GITHUB_ENV
+          echo "GITHUB_description=$(cat $GITHUB_WORKSPACE/odex.md | sed '1d')" >> $GITHUB_ENV
 
       - name: 4. 创建GitHub Release
         id: create_release
@@ -46,9 +46,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: MIUI ODEX ${{steps.version.outputs.value}}
-          release_name: ${{steps.version.outputs.value}}
-          body: ${{steps.description.outputs.content}}
+          tag_name: MIUI ODEX $GITHUB_version
+          release_name: $GITHUB_version
+          body: $GITHUB_description
           draft: false
           prerelease: false
       - name: 5. 上传GitHub Release
