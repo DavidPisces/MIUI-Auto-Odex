@@ -16,6 +16,7 @@ jobs:
         run: |
           cp -f $GITHUB_WORKSPACE/odex.sh $GITHUB_WORKSPACE/odex_script_update_online/common
           cp -f $GITHUB_WORKSPACE/odex.json $GITHUB_WORKSPACE/odex_script_update_online/common
+          cp -f $GITHUB_WORKSPACE/odex.md $GITHUB_WORKSPACE/odex_script_update_online/common
           cd $GITHUB_WORKSPACE/odex_script_update_online
           zip -q -r odex_script_update_online.zip *
           mv $GITHUB_WORKSPACE/odex_script_update_online/odex_script_update_online.zip $GITHUB_WORKSPACE/odex_script_update_online.zip
