@@ -39,6 +39,8 @@ jobs:
         run: |
           echo "GITHUB_version=$(cat $GITHUB_WORKSPACE/odex.json | sed 's/,/\n/g' | grep "version" | sed 's/:/\n/g' | sed '1d;3d;4d' | sed 's/^[ ]*//g')" >> $GITHUB_ENV
           echo "GITHUB_description=$(cat $GITHUB_WORKSPACE/odex.md | sed '1d')" >> $GITHUB_ENV
+          echo $GITHUB_description
+          echo $GITHUB_version
 
       - name: 4. 创建GitHub Release
         id: create_release
