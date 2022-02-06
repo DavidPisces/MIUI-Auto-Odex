@@ -21,6 +21,7 @@ jobs:
           cp -f $GITHUB_WORKSPACE/odex.sh $GITHUB_WORKSPACE/odex_script_update_online/common
           cp -f $GITHUB_WORKSPACE/odex.json $GITHUB_WORKSPACE/odex_script_update_online/common
           cp -f $GITHUB_WORKSPACE/odex.md $GITHUB_WORKSPACE/odex_script_update_online/common
+          sed -i '1d;4d;5d;6d' $GITHUB_WORKSPACE/odex_script_update_online/common/odex.json
           cd $GITHUB_WORKSPACE/odex_script_update_online
           zip -q -r odex_script_update_online.zip *
           mv $GITHUB_WORKSPACE/odex_script_update_online/odex_script_update_online.zip $GITHUB_WORKSPACE/odex_script_update_online.zip
@@ -45,3 +46,8 @@ jobs:
           asset_path: ./odex_script_update_online.zip
           asset_name: odex_script_update_online.zip
           asset_content_type: application/zip
+      - name: 5. 推送到Magisk Module仓库
+        env:
+          browser_download_url: ${{ steps.upload-release-asset.outputs.browser_download_url }}
+        run: |
+          sed -i "s#browser_download_url#http://ghproxy.com/$browser_download_url#g" $GITHUB_WORKSPACE/odex.json
