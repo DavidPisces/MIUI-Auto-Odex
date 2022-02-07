@@ -54,7 +54,7 @@ jobs:
           git config --global user.name "柚稚的孩纸"
           sed -i '4d' $GITHUB_WORKSPACE/odex-For-MIUI-WeeklyReleases/odex.json
           sed -i '3a     "zipUrl": "https://ghproxy.com/'"$browser_download_url"'",' $GITHUB_WORKSPACE/odex-For-MIUI-WeeklyReleases/odex.json
-          git add ./odex-For-MIUI-WeeklyReleases/odex.json
+          git add ./odex-For-MIUI-WeeklyReleases/*
           git commit -m "$GITHUB_description" -a
       - name: 6. 推送到Magisk Module仓库
         uses: ad-m/github-push-action@master

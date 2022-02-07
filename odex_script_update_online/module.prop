@@ -1,0 +1,7 @@
+id=odex_script_update_online
+name=MIUI ODEX 脚本更新模块
+version=8.0
+versionCode=80
+author=柚稚的孩纸&雄式老方
+minMagisk=24000
+updateJson=https://ghproxy.com/https://github.com/zjw2017/odex-For-MIUI-WeeklyReleases/blob/master/odex.json
