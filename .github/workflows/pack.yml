@@ -11,6 +11,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: 1. 准备文件
         run: |
+          echo $GITHUB_WORKSPACE
           cp -f $GITHUB_WORKSPACE/odex.sh $GITHUB_WORKSPACE/odex_script_update_online/common
           cp -f $GITHUB_WORKSPACE/odex.json $GITHUB_WORKSPACE/odex_script_update_online/common
           cp -f $GITHUB_WORKSPACE/odex.md $GITHUB_WORKSPACE/odex_script_update_online/common
