@@ -48,6 +48,7 @@ jobs:
         env:
           browser_download_url: ${{ steps.upload-release-asset.outputs.browser_download_url }}
         run: |
+          rm -rf $GITHUB_WORKSPACE/*
           git clone https://github.com/zjw2017/odex-For-MIUI-WeeklyReleases
           git config --global user.email "1987836456+zjw2017@users.noreply.github.com "
           git config --global user.name "柚稚的孩纸"
