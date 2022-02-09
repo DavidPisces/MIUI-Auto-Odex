@@ -57,7 +57,7 @@ jobs:
           git config --global user.email "1987836456+zjw2017@users.noreply.github.com "
           git config --global user.name "柚稚的孩纸"
           sed -i '4d' $GITHUB_WORKSPACE/odex.json
-          sed -i '3a     "zipUrl": "'"$browser_download_url"'",' $GITHUB_WORKSPACE/odex.json
+          sed -i '3a "zipUrl": "'"$browser_download_url"'",' $GITHUB_WORKSPACE/odex.json
           sed -i 's/github.com/hub.fastgit.org/g' $GITHUB_WORKSPACE/odex.json
           git add ./odex.json
           git commit -m "$GITHUB_description" -a
