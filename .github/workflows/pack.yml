@@ -61,7 +61,7 @@ jobs:
           sed -i 's/github.com/hub.fastgit.org/g' $GITHUB_WORKSPACE/odex.json
           git add ./odex.json
           git commit -m "$GITHUB_description" -a
-      - name: 6. 推送到Magisk Module仓库
+      - name: 7. 推送到Magisk Module仓库
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
