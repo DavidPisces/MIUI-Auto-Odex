@@ -54,7 +54,7 @@ jobs:
         env:
           browser_download_url: ${{ steps.upload-release-asset.outputs.browser_download_url }}
         run: |
-          git config --global user.email "1987836456+zjw2017@users.noreply.github.com "
+          git config --global user.email "30484319+zjw2017@users.noreply.github.com"
           git config --global user.name "柚稚的孩纸"
           sed -i '4d' $GITHUB_WORKSPACE/odex.json
           sed -i '3a "zipUrl": "'"$browser_download_url"'",' $GITHUB_WORKSPACE/odex.json
