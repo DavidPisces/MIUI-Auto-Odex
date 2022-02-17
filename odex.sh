@@ -10,6 +10,8 @@ now_time=$(date '+%Y%m%d_%H:%M:%S')
 SDK=$(getprop ro.system.build.version.sdk)
 success_count=0
 time=$(date "+%Y年%m月%d日%H:%M:%S")
+version=$(cat /storage/emulated/0/MIUI_odex/odex.json | sed 's/,/\n/g' | grep "version" | sed 's/:/\n/g' | sed '1d;3d;4d' | sed 's/^[ ]*//g')
+versionCode=$(cat /storage/emulated/0/MIUI_odex/odex.json | sed 's/,/\n/g' | grep "versionCode" | sed 's/:/\n/g' | sed '1d' | sed 's/^[ ]*//g')
 workfile=/storage/emulated/0/MIUI_odex/system
 if [ -d "/system/product" ]; then
    is_product=0
@@ -72,11 +74,6 @@ fi
 if [[ $MIUI_version_code == 9 ]] && [[ $MIUI_version_name == V11 ]]; then
    MIUI_version=11
 fi
-if [ ! -f "/storage/emulated/0/MIUI_odex/version.prop" ]; then
-   cd /storage/emulated/0/MIUI_odex
-   curl -s -o version.prop https://gitee.com/yzdhz/odex-For-MIUI-WeeklyReleases/raw/master/version.prop
-fi
-source /storage/emulated/0/MIUI_odex/version.prop
 mkdir -p /storage/emulated/0/MIUI_odex/log
 mkdir -p $workfile/app
 mkdir -p $workfile/priv-app
@@ -88,7 +85,6 @@ echo " "
 echo " "
 echo "                   MIUI ODEX"
 echo "                   $version"
-echo "                   本次更新日志：$description"
 echo " "
 echo " "
 echo "*************************************************"
@@ -107,7 +103,6 @@ if [ $choose_odex == 3 ]; then
    echo " "
    echo "                   MIUI ODEX"
    echo "                   $version"
-   echo "                   本次更新日志：$description"
    echo " "
    echo "*************************************************"
    echo -e "\n- 您希望以什么模式进行Dex2oat\n"
@@ -123,7 +118,6 @@ else
    echo " "
    echo "                   MIUI ODEX"
    echo "                   $version"
-   echo "                   本次更新日志：$description"
    echo " "
    echo "*************************************************"
    echo -e "\n- 您希望以什么模式进行Dex2oat\n"
@@ -485,10 +479,10 @@ if [ $choose_odex != 3 ]; then
       echo "id=miuiodex" >>/data/adb/modules/miuiodex/module.prop
       echo "name=MIUI ODEX" >>/data/adb/modules/miuiodex/module.prop
       echo "version=$version" >>/data/adb/modules/miuiodex/module.prop
-      echo "versionCode=1" >>/data/adb/modules/miuiodex/module.prop
+      echo "versionCode=$versionCode" >>/data/adb/modules/miuiodex/module.prop
       echo "author=柚稚的孩纸&雄式老方" >>/data/adb/modules/miuiodex/module.prop
       echo "description=分离系统软件ODEX，MIUI$MIUI_version $modelversion Android$android_version，编译时间$time" >>/data/adb/modules/miuiodex/module.prop
-      echo -n "minMagisk=23000" >>/data/adb/modules/miuiodex/module.prop
+      echo -n "minMagisk=24000" >>/data/adb/modules/miuiodex/module.prop
       mv $workfile/* /data/adb/modules/miuiodex/system
       if [ $? = 0 ]; then
          echo "- 模块制作完成，请重启生效"

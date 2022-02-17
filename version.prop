@@ -1,2 +1,0 @@
-version=7.0
-description="支持MIUI13 Android12，精简非必要参数，重构执行顺序，修复逻辑错误"

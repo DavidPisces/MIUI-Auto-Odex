@@ -1,0 +1,68 @@
+name: PackZip
+on:
+  push:
+    paths:
+      - "odex.json"
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: 1. 准备文件
+        run: |
+          echo "GITHUB_version=$(cat $GITHUB_WORKSPACE/odex.json | sed 's/,/\n/g' | grep "version" | sed 's/:/\n/g' | sed '1d;3d;4d' | sed 's/^[ ]*//g')" >> $GITHUB_ENV
+          echo "GITHUB_versionCode=$(cat $GITHUB_WORKSPACE/odex.json | sed 's/,/\n/g' | grep "versionCode" | sed 's/:/\n/g' | sed '1d' | sed 's/^[ ]*//g')" >> $GITHUB_ENV
+          echo "GITHUB_description=$(cat $GITHUB_WORKSPACE/odex.md | sed '1d')" >> $GITHUB_ENV
+          cp -f $GITHUB_WORKSPACE/odex.sh $GITHUB_WORKSPACE/odex_script_update_online/common
+          cp -f $GITHUB_WORKSPACE/odex.json $GITHUB_WORKSPACE/odex_script_update_online/common
+          cp -f $GITHUB_WORKSPACE/odex.md $GITHUB_WORKSPACE/odex_script_update_online/common
+      - name: 2. 制作模块
+        run: |
+          sed -i '1d;4d;5d;6d' $GITHUB_WORKSPACE/odex_script_update_online/common/odex.json
+          echo "version=${{ env.GITHUB_version }}" >>$GITHUB_WORKSPACE/odex_script_update_online/module.prop
+          echo "versionCode=${{ env.GITHUB_versionCode }}" >>$GITHUB_WORKSPACE/odex_script_update_online/module.prop
+          cd $GITHUB_WORKSPACE/odex_script_update_online
+          zip -q -r odex_script_update_online.zip *
+          mv $GITHUB_WORKSPACE/odex_script_update_online/odex_script_update_online.zip $GITHUB_WORKSPACE/odex_script_update_online.zip
+      - name: 3. 创建GitHub Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.GITHUB_version }}
+          release_name: MIUI ODEX ${{ env.GITHUB_version }}
+          body: ${{ env.GITHUB_description }}
+          draft: false
+          prerelease: false
+      - name: 4. 上传GitHub Release
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./odex_script_update_online.zip
+          asset_name: odex_script_update_online.zip
+          asset_content_type: application/zip
+      - name: 5. 再次初始化仓库
+        run: |
+          rm -rf $GITHUB_WORKSPACE/*
+      - uses: actions/checkout@v2
+      - name: 6. 更新下载链接
+        env:
+          browser_download_url: ${{ steps.upload-release-asset.outputs.browser_download_url }}
+        run: |
+          git config --global user.email "30484319+zjw2017@users.noreply.github.com"
+          git config --global user.name "柚稚的孩纸"
+          sed -i '4d' $GITHUB_WORKSPACE/odex.json
+          sed -i '3a "zipUrl": "'"$browser_download_url"'",' $GITHUB_WORKSPACE/odex.json
+          sed -i 's/github.com/hub.fastgit.org/g' $GITHUB_WORKSPACE/odex.json
+          git add ./odex.json
+          git commit -m "$GITHUB_description" -a
+      - name: 7. 推送到Magisk Module仓库
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
