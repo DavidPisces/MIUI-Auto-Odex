@@ -11,7 +11,7 @@ on_install(){
 print_modname() {
 ui_print "**************************************************************"
 ui_print "- MIUI ODEX 脚本更新模块"
-ui_print "- Made By 柚稚的孩纸&雄氏老方"
+ui_print "- Made By 柚稚的孩纸&冷洛"
 ui_print "**************************************************************"
 }
 rm -rf /storage/emulated/0/MIUI_odex/odex.sh
