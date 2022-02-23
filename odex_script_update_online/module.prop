@@ -2,4 +2,4 @@ id=odex_script_update_online
 name=MIUI ODEX 脚本更新模块
 author=柚稚的孩纸&冷洛
 minMagisk=24000
-updateJson=https://raw.fastgit.org/zjw2017/odex-For-MIUI-WeeklyReleases/master/odex.json
+updateJson=https://github.com/DavidPisces/MIUI-Auto-Odex/blob/master/odex.json

@@ -11,8 +11,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: 1. 准备文件
         run: |
-          echo "GITHUB_version=$(cat $GITHUB_WORKSPACE/odex.json | sed 's/,/\n/g' | grep "version" | sed 's/:/\n/g' | sed '1d;3d;4d' | sed 's/^[ ]*//g')" >> $GITHUB_ENV
-          echo "GITHUB_versionCode=$(cat $GITHUB_WORKSPACE/odex.json | sed 's/,/\n/g' | grep "versionCode" | sed 's/:/\n/g' | sed '1d' | sed 's/^[ ]*//g')" >> $GITHUB_ENV
+          echo "GITHUB_version=$(jq .version $GITHUB_WORKSPACE/odex.json)" >> $GITHUB_ENV
+          echo "GITHUB_versionCode=$(jq .versionCode $GITHUB_WORKSPACE/odex.json)" >> $GITHUB_ENV
           echo "GITHUB_description=$(cat $GITHUB_WORKSPACE/odex.md | sed '1d')" >> $GITHUB_ENV
           cp -f $GITHUB_WORKSPACE/odex.sh $GITHUB_WORKSPACE/odex_script_update_online/common
           cp -f $GITHUB_WORKSPACE/odex.json $GITHUB_WORKSPACE/odex_script_update_online/common
@@ -58,6 +58,8 @@ jobs:
           git config --global user.name "泠洛 & 柚稚的孩纸"
           sed -i '4d' $GITHUB_WORKSPACE/odex.json
           sed -i '3a "zipUrl": "'"$browser_download_url"'",' $GITHUB_WORKSPACE/odex.json
+          jq . $GITHUB_WORKSPACE/odex.json > $GITHUB_WORKSPACE/new.json
+          rm -rf $GITHUB_WORKSPACE/odex.json && mv $GITHUB_WORKSPACE/new.json $GITHUB_WORKSPACE/odex.json
           git add ./odex.json
           git commit -m "$GITHUB_description" -a
       - name: 7. 推送到Magisk Module仓库
