@@ -108,19 +108,9 @@ case $choose_odex in
    case $choose_dex2oat in
    1)
       dex2oat=speed
-      mkdir -p $workfile/packagelist
-      touch $workfile/packagelist/packagelist.log
-      echo "$(pm list packages -3)" >$workfile/packagelist/packagelist.log
-      apptotalnumber="$(grep -o "package:" $workfile/packagelist/packagelist.log | wc -l)"
-      appnumber=0
       ;;
    2)
       dex2oat=everything
-      mkdir -p $workfile/packagelist
-      touch $workfile/packagelist/packagelist.log
-      echo "$(pm list packages -3)" >$workfile/packagelist/packagelist.log
-      apptotalnumber="$(grep -o "package:" $workfile/packagelist/packagelist.log | wc -l)"
-      appnumber=0
       ;;
    3)
       dex2oat=null
@@ -152,19 +142,9 @@ case $choose_odex in
    case $choose_dex2oat in
    1)
       dex2oat=speed
-      mkdir -p $workfile/packagelist
-      touch $workfile/packagelist/packagelist.log
-      echo "$(pm list packages -3)" >$workfile/packagelist/packagelist.log
-      apptotalnumber="$(grep -o "package:" $workfile/packagelist/packagelist.log | wc -l)"
-      appnumber=0
       ;;
    2)
       dex2oat=everything
-      mkdir -p $workfile/packagelist
-      touch $workfile/packagelist/packagelist.log
-      echo "$(pm list packages -3)" >$workfile/packagelist/packagelist.log
-      apptotalnumber="$(grep -o "package:" $workfile/packagelist/packagelist.log | wc -l)"
-      appnumber=0
       ;;
    3)
       dex2oat=null
@@ -268,9 +248,7 @@ if [ $choose_odex != 3 ]; then
    clear
    # system部分
    echo "- 开始处理/system/framework"
-   system_framework_jar=$(ls -l $workfile/framework | awk 'NR>1 {print $NF}')
-   for a in $system_framework_jar; do
-      cd $workfile/framework
+   for a in $(ls -l $workfile/framework | awk 'NR>1 {print $NF}'); do
       mkdir -p $workfile/framework/oat/arm
       mkdir -p $workfile/framework/oat/arm64
       oat32=$workfile/framework/oat/arm
@@ -283,8 +261,7 @@ if [ $choose_odex != 3 ]; then
       echo "- 已完成对$a的处理"
    done
    echo "- 开始处理/system/app"
-   system_app=$(ls -l $workfile/app | awk '/^d/ {print $NF}')
-   for b in $system_app; do
+   for b in $(ls -l $workfile/app | awk '/^d/ {print $NF}'); do
       cd $workfile/app/$b
       rm -rf $(find . ! -name '*.apk')
       unzip -q -o *.apk "classes.dex"
@@ -312,8 +289,7 @@ if [ $choose_odex != 3 ]; then
       fi
    done
    echo "- 开始处理/system/priv-app"
-   system_priv_app=$(ls -l $workfile/priv-app | awk '/^d/ {print $NF}')
-   for c in $system_priv_app; do
+   for c in $(ls -l $workfile/priv-app | awk '/^d/ {print $NF}'); do
       cd $workfile/priv-app/$c
       rm -rf $(find . ! -name '*.apk')
       unzip -q -o *.apk "classes.dex"
@@ -343,9 +319,7 @@ if [ $choose_odex != 3 ]; then
    # product部分
    if [ $is_product == 0 ]; then
       echo "- 开始处理/system/product/framework"
-      system_product_framework_jar=$(ls -l $workfile/product/framework | awk 'NR>1 {print $NF}')
-      for d in $system_product_framework_jar; do
-         cd $workfile/product/framework
+      for d in $(ls -l $workfile/product/framework | awk 'NR>1 {print $NF}'); do
          mkdir -p $workfile/product/framework/oat/arm
          mkdir -p $workfile/product/framework/oat/arm64
          oat32=$workfile/product/framework/oat/arm
@@ -358,8 +332,7 @@ if [ $choose_odex != 3 ]; then
          echo "- 已完成对$d的处理"
       done
       echo "- 开始处理/system/product/app"
-      system_product_app=$(ls -l $workfile/product/app | awk '/^d/ {print $NF}')
-      for e in $system_product_app; do
+      for e in $(ls -l $workfile/product/app | awk '/^d/ {print $NF}'); do
          cd $workfile/product/app/$e
          rm -rf $(find . ! -name '*.apk')
          unzip -q -o *.apk "classes.dex"
@@ -387,8 +360,7 @@ if [ $choose_odex != 3 ]; then
          fi
       done
       echo "- 开始处理/system/product/priv-app"
-      system_product_priv_app=$(ls -l $workfile/product/priv-app | awk '/^d/ {print $NF}')
-      for f in $system_product_priv_app; do
+      for f in $(ls -l $workfile/product/priv-app | awk '/^d/ {print $NF}'); do
          cd $workfile/product/priv-app/$f
          rm -rf $(find . ! -name '*.apk')
          unzip -q -o *.apk "classes.dex"
@@ -419,9 +391,7 @@ if [ $choose_odex != 3 ]; then
    # system_ext部分
    if [ $is_system_ext == 0 ]; then
       echo "- 开始处理/system/system_ext/framework"
-      system_ext_framework_jar=$(ls -l $workfile/system_ext/framework | awk 'NR>1 {print $NF}')
-      for g in $system_ext_framework_jar; do
-         cd $workfile/system_ext/framework
+      for g in $(ls -l $workfile/system_ext/framework | awk 'NR>1 {print $NF}'); do
          mkdir -p $workfile/system_ext/framework/oat/arm
          mkdir -p $workfile/system_ext/framework/oat/arm64
          oat32=$workfile/system_ext/framework/oat/arm
@@ -434,8 +404,7 @@ if [ $choose_odex != 3 ]; then
          echo "- 已完成对$g的处理"
       done
       echo "- 开始处理/system/system_ext/app"
-      system_system_ext_app=$(ls -l $workfile/system_ext/app | awk '/^d/ {print $NF}')
-      for h in $system_system_ext_app; do
+      for h in $(ls -l $workfile/system_ext/app | awk '/^d/ {print $NF}'); do
          cd $workfile/system_ext/app/$h
          rm -rf $(find . ! -name '*.apk')
          unzip -q -o *.apk "classes.dex"
@@ -463,8 +432,7 @@ if [ $choose_odex != 3 ]; then
          fi
       done
       echo "- 开始处理/system/system_ext/priv-app"
-      system_system_ext_priv_app=$(ls -l $workfile/system_ext/priv-app | awk '/^d/ {print $NF}')
-      for i in $system_system_ext_priv_app; do
+      for i in $(ls -l $workfile/system_ext/priv-app | awk '/^d/ {print $NF}'); do
          cd $workfile/system_ext/priv-app/$i
          rm -rf $(find . ! -name '*.apk')
          unzip -q -o *.apk "classes.dex"
@@ -495,8 +463,7 @@ if [ $choose_odex != 3 ]; then
    # vendor部分
    if [ $is_vendor == 0 ]; then
       echo "- 开始处理/system/vendor/app"
-      system_vendor_app=$(ls -l $workfile/vendor/app | awk '/^d/ {print $NF}')
-      for j in $system_vendor_app; do
+      for j in $(ls -l $workfile/vendor/app | awk '/^d/ {print $NF}'); do
          cd $workfile/vendor/app/$j
          rm -rf $(find . ! -name '*.apk')
          unzip -q -o *.apk "classes.dex"
@@ -549,15 +516,78 @@ else
    echo "- 不进行ODEX编译"
 fi
 if [ $dex2oat != null ]; then
-   echo "正在以$dex2oat模式优化用户软件"
-   for item in $(pm list packages -3); do
-      app=${item:8}
-      echo "正在优化 -> $app"
-      cmd package compile -m $dex2oat $app
-      echo "应用优化完成"
-      let appnumber=appnumber+1
-      percentage=$((appnumber * 100 / apptotalnumber))
-      echo "已完成 $percentage%   $appnumber / $apptotalnumber"
+   echo "- 正在以$dex2oat模式优化用户软件"
+   echo "- 百分比最终可能不为100％"
+   appnumber_32=0
+   appnumber_64=0
+   mkdir -p $workfile/user-app
+   find /data/app -name *.apk >$workfile/user-app/apk路径.txt
+   for k in $(cat $workfile/user-app/apk路径.txt); do
+      echo ${k%/*} >>$workfile/user-app/apk外文件夹路径.txt
+   done
+   echo "$(pm list package -f)" >$workfile/user-app/tmp1.log
+   for l in $(cat $workfile/user-app/apk路径.txt); do
+      echo "$(cat $workfile/user-app/tmp1.log | grep $l)" >>$workfile/user-app/tmp2.log
+   done
+   for m in $(cat $workfile/user-app/tmp2.log); do
+      echo "${m##*=}" >>$workfile/user-app/已安装app的包名.txt
+   done
+   for n in $(cat $workfile/user-app/已安装app的包名.txt); do
+      dumpsys package $n | grep "arm: " >/dev/null
+      if [ $? == 0 ]; then
+         echo "$n" >>$workfile/user-app/32位app.txt
+      fi
+      dumpsys package $n | grep "arm64: " >/dev/null
+      if [ $? == 0 ]; then
+         echo "$n" >>$workfile/user-app/64位app.txt
+      fi
+   done
+   rm -rf $workfile/user-app/*.log
+   apptotalnumber_32=$(sed -n '$=' $workfile/user-app/32位app.txt)
+   echo "- 开始处理32位app"
+   for o in $(cat $workfile/user-app/32位app.txt); do
+      for p in $(cat $workfile/user-app/apk外文件夹路径.txt | grep $o); do
+         cd $p
+         unzip -q -o *.apk "classes.dex"
+         if [ $? = 0 ]; then
+            echo "- 解包$o成功，开始处理"
+            if [ -f "classes.dex" ]; then
+               echo "! 已检测到dex文件，开始编译"
+               rm -rf $p/oat/arm
+               mkdir -p $p/oat/arm
+               oat=$p/oat/arm
+               dex2oat --dex-file=$p/base.apk --compiler-filter=$dex2oat --instruction-set=arm --oat-file=$oat/base.odex
+               rm -rf $p/classes.dex
+               echo "- 已完成对$o的应用优化"
+               let appnumber_32=appnumber_32+1
+               percentage_32=$((appnumber_32 * 100 / apptotalnumber_32))
+               echo "- 已完成 $percentage_32%   $appnumber_32 / $apptotalnumber_32"
+            fi
+         fi
+      done
+   done
+   apptotalnumber_64=$(sed -n '$=' $workfile/user-app/64位app.txt)
+   echo "- 开始处理64位app"
+   for q in $(cat $workfile/user-app/64位app.txt); do
+      for r in $(cat $workfile/user-app/apk外文件夹路径.txt | grep $q); do
+         cd $r
+         unzip -q -o *.apk "classes.dex"
+         if [ $? = 0 ]; then
+            echo "- 解包$q成功，开始处理"
+            if [ -f "classes.dex" ]; then
+               echo "! 已检测到dex文件，开始编译"
+               rm -rf $r/oat/arm64
+               mkdir -p $r/oat/arm64
+               oat=$r/oat/arm64
+               dex2oat --dex-file=$r/base.apk --compiler-filter=$dex2oat --instruction-set=arm64 --oat-file=$oat/base.odex
+               rm -rf $r/classes.dex
+               echo "- 已完成对$q的应用优化"
+               let appnumber_64=appnumber_64+1
+               percentage_64=$((appnumber_64 * 100 / apptotalnumber_64))
+               echo "- 已完成 $percentage_64%   $appnumber_64 / $apptotalnumber_64"
+            fi
+         fi
+      done
    done
 else
    echo "- 不进行Dex2oat编译"
