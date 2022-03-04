@@ -1,6 +1,6 @@
 {
-  "version": 9.0,
+  "version": 9,
   "versionCode": 90,
-  "zipUrl": "https://github.com/DavidPisces/MIUI-Auto-Odex/releases/download/8.5/odex_script_update_online.zip",
+  "zipUrl": "https://github.com/DavidPisces/MIUI-Auto-Odex/releases/download/9/odex_script_update_online.zip",
   "changelog": "https://raw.githubusercontent.com/DavidPisces/MIUI-Auto-Odex/master/odex.md"
 }
