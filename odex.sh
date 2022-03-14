@@ -1,6 +1,6 @@
 #!/bin/bash
 # MIUI ODEX项目贡献者：柚稚的孩纸(zjw2017) & 冷洛(DavidPisces)
-rm -rf $workfile
+workfile=/storage/emulated/0/MIUI_odex/system
 failed_count=0
 logfile=/storage/emulated/0/MIUI_odex/log
 MIUI_version_code=$(getprop ro.miui.ui.version.code)
@@ -12,7 +12,7 @@ success_count=0
 time=$(date "+%Y年%m月%d日%H:%M:%S")
 version=$(cat /storage/emulated/0/MIUI_odex/odex.json | sed 's/,/\n/g' | grep "version" | sed 's/:/\n/g' | sed '1d;3d;4d' | sed 's/^[ ]*//g')
 versionCode=$(cat /storage/emulated/0/MIUI_odex/odex.json | sed 's/,/\n/g' | grep "versionCode" | sed 's/:/\n/g' | sed '1d' | sed 's/^[ ]*//g')
-workfile=/storage/emulated/0/MIUI_odex/system
+rm -rf $workfile
 if [ -d "/system/product" ]; then
    is_product=0
 else
