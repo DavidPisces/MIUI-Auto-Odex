@@ -17,6 +17,7 @@ jobs:
           cp -f $GITHUB_WORKSPACE/odex.sh $GITHUB_WORKSPACE/odex_script_update_online/common
           cp -f $GITHUB_WORKSPACE/odex.json $GITHUB_WORKSPACE/odex_script_update_online/common
           cp -f $GITHUB_WORKSPACE/odex.md $GITHUB_WORKSPACE/odex_script_update_online/common
+          cp -f $GITHUB_WORKSPACE/Simple_List.prop $GITHUB_WORKSPACE/odex_script_update_online/common
       - name: 2. 制作模块
         run: |
           sed -i '1d;4d;5d;6d' $GITHUB_WORKSPACE/odex_script_update_online/common/odex.json

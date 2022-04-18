@@ -31,12 +31,12 @@
 ###### 必要
 
 * 必须具有Root权限
+* 必须使用Magisk 24.0及以上Magisk版本
 * 需要使用MT管理器或者其他终端执行脚本，比如Ansole终端、Termux等
 
 ###### 建议 
 
-* 动态适配各个Android大版本(Android P以下不保证生效)和MIUI11-MIUI12.5
-* 推荐使用Magisk 20.4及以上Magisk版本
+* 动态适配各个Android大版本(Android P以下不保证生效)和MIUI11-MIUI13
 * 建议安装完整Busybox
 
 #### 执行错误
@@ -46,18 +46,24 @@
 * 使用cat获取文件内容：cat filename   (例如：cat odex.sh)
 
 #### 如何使用
+* 1、Magisk
 
-* MT管理器
+  >安装模块：odex_script_update_online.zip
+  >
 
-  >下载脚本后点击脚本执行，勾选Root
+* 2-1 MT管理器
+
+  >进入/storage/emulated/0/MIUI_odex，根据需要编辑Simple_List.prop文件
+  >
+  >执行odex.sh并勾选左侧Root
   >
   >![](http://image.coolapk.com/feed/2020/0623/15/665894_f922a721_8810_5677@1080x2160.jpeg.m.jpg)
 
-* 其他终端
+* 2-2 其他终端
 
   > su
   >
-  > cd 脚本存放目录
+  > cd /storage/emulated/0/MIUI_odex
   >
   > sh odex.sh
   >
