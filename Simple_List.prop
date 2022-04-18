@@ -1,0 +1,113 @@
+# MIUI ODEX Simple模式优化包名列表
+
+# 这里根据包名获取app的系统路径 只需要填写Simple模式需要优化的应用包名即可
+# 这么做的好处是: 即使之后MIUI版本变更了/system/*路径，依然能准确获取其位置。
+
+# 如果您希望优化该应用，请将包名前的#号删除并保存
+
+#====================================================
+# 小米妙享组件
+
+# 投屏
+com.milink.service
+
+# 系统界面组件
+miui.systemui.plugin
+
+# 小米互联通信服务 
+com.xiaomi.mi_connect_service
+
+# 小米互传
+com.miui.mishare.connectivity
+
+# 相册
+com.miui.gallery
+
+# MIUI+ Beta版
+#com.xiaomi.mirror
+
+
+# Google 服务
+com.google.android.gms
+# Google 服务框架
+com.google.android.gsf
+
+
+# 小组件相关应用
+
+# 笔记
+com.miui.notes
+
+# 天气
+com.miui.weather2
+
+# 搜索
+com.android.quicksearchbox
+
+#小米运动健康
+com.mi.health
+
+# 智能助理
+com.miui.personalassistant
+
+# 系统桌面
+com.miui.home
+
+# 自由窗口
+com.miui.freeform
+
+# 系统界面
+com.android.systemui
+
+# 手机管家
+com.miui.securitycenter
+
+# 设置
+com.android.settings
+
+# 小米设置
+com.xiaomi.misettings
+
+# 通讯录与拨号
+com.android.contacts
+
+# 短信
+com.android.mms
+# 蓝牙
+com.android.bluetooth
+
+# MIUI Bluetooth
+com.xiaomi.bluetooth
+
+# MIUI SDK
+com.miui.core
+
+# miuisystem
+com.miui.system
+
+# 小米服务框架
+com.xiaomi.xmsf
+
+#相机
+com.android.camera
+
+# 小米SIM卡激活服务 
+com.xiaomi.simactivate.service
+
+# 小爱同学
+com.miui.voiceassist
+
+# 语音唤醒
+com.miui.voicetrigger
+
+# NFC
+com.android.nfc
+
+# 小米智能卡
+com.miui.tsmclient
+
+# 传送门
+com.miui.contentextension
+
+# 小米闻声
+com.miui.accessibility
