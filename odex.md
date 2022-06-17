@@ -1,2 +1,2 @@
-### 10.0
-重构Simple编译模式使其兼容更多的机型、在Simple模式中加入Simple_List名单(odex.sh中)满足用户编译部分系统app的需求、尽可能消除一切报错
+### 10.1
+修复代理头DNS解析错误、支持安卓12L、预支持安卓13、新增安卓版本和Magisk版本判定、舍弃install.sh转用customize.sh

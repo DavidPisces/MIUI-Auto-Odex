@@ -14,15 +14,13 @@ jobs:
           echo "GITHUB_version=$(jq .version $GITHUB_WORKSPACE/odex.json)" >> $GITHUB_ENV
           echo "GITHUB_versionCode=$(jq .versionCode $GITHUB_WORKSPACE/odex.json)" >> $GITHUB_ENV
           echo "GITHUB_description=$(cat $GITHUB_WORKSPACE/odex.md | sed '1d')" >> $GITHUB_ENV
-          cp -f $GITHUB_WORKSPACE/odex.sh $GITHUB_WORKSPACE/odex_script_update_online/common
-          cp -f $GITHUB_WORKSPACE/odex.json $GITHUB_WORKSPACE/odex_script_update_online/common
-          cp -f $GITHUB_WORKSPACE/odex.md $GITHUB_WORKSPACE/odex_script_update_online/common
-          cp -f $GITHUB_WORKSPACE/Simple_List.prop $GITHUB_WORKSPACE/odex_script_update_online/common
+          cp -f $GITHUB_WORKSPACE/odex.sh $GITHUB_WORKSPACE/odex_script_update_online
+          cp -f $GITHUB_WORKSPACE/Simple_List.prop $GITHUB_WORKSPACE/odex_script_update_online
       - name: 2. 制作模块
         run: |
-          sed -i '1d;4d;5d;6d' $GITHUB_WORKSPACE/odex_script_update_online/common/odex.json
           echo "version=${{ env.GITHUB_version }}" >>$GITHUB_WORKSPACE/odex_script_update_online/module.prop
           echo "versionCode=${{ env.GITHUB_versionCode }}" >>$GITHUB_WORKSPACE/odex_script_update_online/module.prop
+          echo "description=${{ env.GITHUB_description }}" >>$GITHUB_WORKSPACE/odex_script_update_online/module.prop
           cd $GITHUB_WORKSPACE/odex_script_update_online
           zip -q -r odex_script_update_online.zip *
           mv $GITHUB_WORKSPACE/odex_script_update_online/odex_script_update_online.zip $GITHUB_WORKSPACE/odex_script_update_online.zip
@@ -58,7 +56,7 @@ jobs:
           git config --global user.email "42595464+DavidPisces@users.noreply.github.com"
           git config --global user.name "泠洛 & 柚稚的孩纸"
           sed -i '4d' $GITHUB_WORKSPACE/odex.json
-          sed -i '3a "zipUrl": "https://github.yzdhz.workers.dev/'"$browser_download_url"'",' $GITHUB_WORKSPACE/odex.json
+          sed -i '3a "zipUrl": "https://github.zjw.js.cn/'"$browser_download_url"'",' $GITHUB_WORKSPACE/odex.json
           jq . $GITHUB_WORKSPACE/odex.json > $GITHUB_WORKSPACE/new.json
           rm -rf $GITHUB_WORKSPACE/odex.json && mv $GITHUB_WORKSPACE/new.json $GITHUB_WORKSPACE/odex.json
           git add ./odex.json
