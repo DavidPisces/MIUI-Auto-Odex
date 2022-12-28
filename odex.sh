@@ -29,7 +29,9 @@ elif [[ $SDK == 32 ]]; then
 elif [[ $SDK == 33 ]]; then
    android_version=13
 fi
-if [[ $MIUI_version_code == 13 ]] && [[ $MIUI_version_name == V130 ]]; then
+if [[ $MIUI_version_code == 14 ]] && [[ $MIUI_version_name == V140 ]]; then
+   MIUI_version=14
+elif [[ $MIUI_version_code == 13 ]] && [[ $MIUI_version_name == V130 ]]; then
    MIUI_version=13
 elif [[ $MIUI_version_code == 12 ]] && [[ $MIUI_version_name == V125 ]]; then
    MIUI_version=12.5 Enhanced
