@@ -53,7 +53,7 @@
 
 * 2-1 MT管理器
 
-  >进入/storage/emulated/0/MIUI_odex，根据需要编辑Simple_List.prop文件
+  >进入/storage/emulated/0/Android/MIUI_odex，根据需要编辑Simple_List.prop文件
   >
   >执行odex.sh并勾选左侧Root
   >
@@ -63,8 +63,8 @@
 
   > su
   >
-  > cd /storage/emulated/0/MIUI_odex
+  > cd /storage/emulated/0/Android/MIUI_odex
   >
-  > sh odex.sh
+  > bash odex.sh
   >
   >![](http://image.coolapk.com/feed/2020/0623/15/665894_16498409_8810_5679@1080x2160.jpeg.m.jpg)
