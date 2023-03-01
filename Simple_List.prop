@@ -1,8 +1,8 @@
 # MIUI ODEX Simple模式优化包名列表
 
 # 这里根据包名获取app的系统路径 只需要填写Simple模式需要优化的应用包名即可
-# 这么做的好处是: 即使之后MIUI版本变更了/system/*路径，依然能准确获取其位置。
-
+# 这么做的好处是: 即使之后MIUI版本变更了apk路径，依然能准确获取其位置。
+# 如果不需要，你可以删除包名所在行或在行首使用#注释
 
 #====================================================
 # 小米妙享组件
@@ -23,15 +23,40 @@ com.miui.mishare.connectivity
 com.miui.gallery
 
 # MIUI+ Beta版
-#com.xiaomi.mirror
+com.xiaomi.mirror
 
+#====================================================
 
-# Google 服务
+#====================================================
+# 谷歌服务套件
+
+# Google Play 商店
+com.android.vending
+
+# Google Play 服务
 com.google.android.gms
+
 # Google 服务框架
 com.google.android.gsf
 
+# Google 应用首次配置
+com.google.android.onetimeinitializer
 
+# Android Shared Library
+com.google.android.ext.shared
+
+# Google 通讯录同步
+com.google.android.syncadapters.contacts
+
+# Google 通讯录备份
+com.android.calllogbackup
+
+# Android 无障碍套件(talkback)
+com.google.android.marvin.talkback
+
+#====================================================
+
+#====================================================
 # 小组件相关应用
 
 # 笔记
@@ -51,6 +76,8 @@ com.miui.personalassistant
 
 # 系统桌面
 com.miui.home
+
+#====================================================
 
 # 自由窗口
 com.miui.freeform
@@ -72,6 +99,7 @@ com.android.contacts
 
 # 短信
 com.android.mms
+
 # 蓝牙
 com.android.bluetooth
 
@@ -93,11 +121,20 @@ com.android.camera
 # 小米SIM卡激活服务 
 com.xiaomi.simactivate.service
 
-# 小爱同学
+# 小爱语音
 com.miui.voiceassist
 
 # 语音唤醒
 com.miui.voicetrigger
+
+# 小爱翻译
+com.xiaomi.aiasst.vision
+
+# 小爱通话
+com.xiaomi.aiasst.service
+
+# 小爱建议
+com.xiaomi.aireco
 
 # NFC
 com.android.nfc
@@ -110,3 +147,15 @@ com.miui.contentextension
 
 # 小米闻声
 com.miui.accessibility
+
+# 弹幕通知
+com.xiaomi.barrage
+
+# 自动连招
+com.xiaomi.macro
+
+# 时钟
+com.android.deskclock
+
+# 日历
+com.android.calendar
