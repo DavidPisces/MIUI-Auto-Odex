@@ -210,9 +210,6 @@ if [[ "$choose_odex" != 3 ]]; then
             fi
          fi
       done
-      for partition in vendor odm product system_ext; do
-         [ -d $MODPATH/$partition ] && mv $MODPATH/$partition $MODPATH/system
-      done
    elif [[ "$choose_odex" == 2 ]]; then
       echo "- 开始处理/system/app"
       for d in $(ls -l /system/app | awk '/^d/ {print $NF}'); do
@@ -417,23 +414,26 @@ if [[ "$choose_odex" != 3 ]]; then
          done
       fi
       echo "- 共$success_count次成功，$failed_count次失败，请检查$logfile中的日志"
-      if [ $odex_module == true ]; then
-         echo "- 正在制作模块，请坐和放宽"
-         touch /data/adb/modules/miuiodex/module.prop
-         {
-            echo "id=miuiodex"
-            echo "name=MIUI ODEX"
-            echo "version=$version"
-            echo "versionCode=$versionCode"
-            echo "author=柚稚的孩纸&冷洛"
-            echo "description=分离系统软件ODEX，MIUI$MIUI_version $modelversion Android$android_version，编译时间$time"
-         } >>/data/adb/modules/miuiodex/module.prop
-         find /data/adb/modules/miuiodex -type d -empty -delete >/dev/null
-         echo "- 模块制作完成，请重启生效"
-         sleep 5s
-      else
-         echo "- 未选择编译ODEX选项，不会生成模块"
-      fi
+   fi
+   if [ $odex_module == true ]; then
+      echo "- 正在制作模块，请坐和放宽"
+      touch /data/adb/modules/miuiodex/module.prop
+      {
+         echo "id=miuiodex"
+         echo "name=MIUI ODEX"
+         echo "version=$version"
+         echo "versionCode=$versionCode"
+         echo "author=柚稚的孩纸&冷洛"
+         echo "description=分离系统软件ODEX，MIUI$MIUI_version $modelversion Android$android_version，编译时间$time"
+      } >>/data/adb/modules/miuiodex/module.prop
+      for partition in vendor odm product system_ext; do
+         [ -d $MODPATH/$partition ] && mv $MODPATH/$partition/* $MODPATH/system/$partition && rm -rf $MODPATH/$partition
+      done
+      find /data/adb/modules/miuiodex -type d -empty -delete >/dev/null
+      echo "- 模块制作完成，请重启生效"
+      sleep 5s
+   else
+      echo "- 未选择编译ODEX选项，不会生成模块"
    fi
 else
    echo "- 不进行ODEX编译"
