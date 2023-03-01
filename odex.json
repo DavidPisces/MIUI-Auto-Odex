@@ -1,6 +1,6 @@
 {
-  "version": 11,
-  "versionCode": 110,
-  "zipUrl": "https://ghproxy.com/https://github.com/zjw2017/MIUI-Auto-Odex_Canary/releases/download/11/odex_script_update_online.zip",
-  "changelog": "https://ghproxy.com/https://github.com/zjw2017/MIUI-Auto-Odex_Canary/blob/master/odex.md"
+  "version": 10.2,
+  "versionCode": 102,
+  "zipUrl": "https://ghproxy.com/https://github.com/DavidPisces/MIUI-Auto-Odex/releases/download/10.2/odex_script_update_online.zip",
+  "changelog": "https://ghproxy.com/https://github.com/DavidPisces/MIUI-Auto-Odex/blob/master/odex.md"
 }
