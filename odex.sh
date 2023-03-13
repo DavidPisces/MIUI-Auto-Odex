@@ -449,7 +449,7 @@ if [[ "$dex2oat_mode" != null ]]; then
       fi
    done
    echo "- 待处理应用数量：$apptotalnumber"
-   for apk_path in $(cat $/storage/emulated/0/Android/MIUI_odex/packages2.txt); do
+   for apk_path in $(cat /storage/emulated/0/Android/MIUI_odex/packages2.txt); do
       apk_dir="${apk_path%/*}"
       record="$(eval cat /storage/emulated/0/Android/MIUI_odex/packages.txt | grep ^"$apk_path")"
       echo "- 开始处理${record##*=}"
