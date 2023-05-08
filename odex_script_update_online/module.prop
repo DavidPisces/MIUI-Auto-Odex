@@ -1,4 +1,5 @@
 id=odex_script_update_online
 name=MIUI ODEX 脚本更新模块
 author=柚稚的孩纸&冷洛
+description=MIUI ODEX 脚本在线更新模块
 updateJson=https://ghproxy.com/https://github.com/DavidPisces/MIUI-Auto-Odex/blob/master/odex.json
